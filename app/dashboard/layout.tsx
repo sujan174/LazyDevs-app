@@ -8,6 +8,7 @@ import { Sidebar } from "@/components/dashboard/Sidebar";
 import { Header } from "@/components/dashboard/Header";
 import { Loader2 } from "lucide-react";
 import { useUploadModal } from "@/contexts/UploadModalProvider";
+import { ErrorBoundary } from "@/components/ErrorBoundary";
 
 // Lazy load the UploadModal for better performance
 const UploadModal = lazy(() =>
@@ -72,22 +73,26 @@ export default function DashboardLayout({
   }
 
   return (
-    <div className="flex h-screen bg-background fade-in">
-      <Sidebar isCollapsed={isSidebarCollapsed} />
-      <div
-        className={`flex-1 flex flex-col transition-all duration-300 ease-in-out ${
-          isSidebarCollapsed ? "ml-20" : "ml-64"
-        }`}
-      >
-        <Header
-          user={user}
-          toggleSidebar={() => setSidebarCollapsed(!isSidebarCollapsed)}
-        />
-        <main className="flex-1 overflow-y-auto">{children}</main>
+    <ErrorBoundary>
+      <div className="flex h-screen bg-background fade-in">
+        <Sidebar isCollapsed={isSidebarCollapsed} />
+        <div
+          className={`flex-1 flex flex-col transition-all duration-300 ease-in-out ${
+            isSidebarCollapsed ? "ml-20" : "ml-64"
+          }`}
+        >
+          <Header
+            user={user}
+            toggleSidebar={() => setSidebarCollapsed(!isSidebarCollapsed)}
+          />
+          <main className="flex-1 overflow-y-auto">
+            <ErrorBoundary>{children}</ErrorBoundary>
+          </main>
+        </div>
+        {/* Lazy-loaded modal component */}
+        <DashboardModalController user={user} />
       </div>
-      {/* Lazy-loaded modal component */}
-      <DashboardModalController user={user} />
-    </div>
+    </ErrorBoundary>
   );
 }
 

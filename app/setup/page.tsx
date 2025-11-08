@@ -3,54 +3,85 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { User, onAuthStateChanged } from "firebase/auth";
-import { auth } from "@/lib/firebase"; // Using path alias
+import { doc, getDoc } from "firebase/firestore";
+import { auth, db } from "@/lib/firebase";
 import { VoiceSetupStep } from "@/components/setup/VoiceSetup";
 import { TeamSetupStep } from "@/components/setup/TeamSetup";
+import { IntegrationsSetupStep } from "@/components/setup/IntegrationsSetup";
 import { Loader2 } from "lucide-react";
 
-// Define the steps for the setup wizard
-type SetupStep = "voice" | "team";
+// Define the steps for the setup wizard: team → voice (optional) → integrations (optional)
+type SetupStep = "team" | "voice" | "integrations";
 
 export default function SetupPage() {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
-  const [setupStep, setSetupStep] = useState<SetupStep>("voice");
+  const [setupStep, setSetupStep] = useState<SetupStep>("team");
+  const [teamId, setTeamId] = useState<string | null>(null);
   const router = useRouter();
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       if (currentUser) {
         setUser(currentUser);
+
+        // Check if user already has a team
+        const userDocRef = doc(db, "users", currentUser.uid);
+        const userDoc = await getDoc(userDocRef);
+
+        if (userDoc.exists()) {
+          const userData = userDoc.data();
+          if (userData.teamId) {
+            setTeamId(userData.teamId);
+            // If user has team, skip to voice setup
+            setSetupStep("voice");
+          }
+        }
       } else {
-        // If no user is logged in, redirect to login page
         router.push("/login");
       }
       setLoading(false);
     });
 
-    // Cleanup subscription on unmount
     return () => unsubscribe();
   }, [router]);
 
-  const handleVoiceProfileComplete = () => {
-    setSetupStep("team");
+  const handleTeamComplete = (newTeamId: string) => {
+    setTeamId(newTeamId);
+    setSetupStep("voice");
+  };
+
+  const handleVoiceComplete = () => {
+    setSetupStep("integrations");
+  };
+
+  const handleSkipVoice = () => {
+    setSetupStep("integrations");
   };
 
   if (loading || !user) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-indigo-50 to-purple-100 flex items-center justify-center p-4">
-        <Loader2 className="h-10 w-10 animate-spin text-indigo-600" />
+      <div className="min-h-screen bg-background flex items-center justify-center p-4">
+        <Loader2 className="h-10 w-10 animate-spin text-primary" />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-50 to-purple-100 flex items-center justify-center p-4 transition-opacity duration-500 ease-in-out">
-      {setupStep === "voice" && (
-        <VoiceSetupStep user={user} onComplete={handleVoiceProfileComplete} />
+    <div className="min-h-screen bg-background flex items-center justify-center p-4 transition-opacity duration-500 ease-in-out">
+      {setupStep === "team" && (
+        <TeamSetupStep user={user} onComplete={handleTeamComplete} />
       )}
-      {setupStep === "team" && <TeamSetupStep user={user} />}
+      {setupStep === "voice" && (
+        <VoiceSetupStep
+          user={user}
+          onComplete={handleVoiceComplete}
+          onSkip={handleSkipVoice}
+        />
+      )}
+      {setupStep === "integrations" && teamId && (
+        <IntegrationsSetupStep user={user} teamId={teamId} />
+      )}
     </div>
   );
 }
-
