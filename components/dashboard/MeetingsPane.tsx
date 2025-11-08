@@ -22,13 +22,14 @@ const MeetingCard = memo(
     return (
       <Link href={`/dashboard/meetings/${meeting.id}`} key={meeting.id}>
         <div
-          className="group p-4 mb-3 rounded-xl bg-card border border-border hover:border-primary/50 hover:shadow-lg cursor-pointer transition-all duration-300 card-hover slide-in-up"
+          className="group p-4 mb-3 rounded-xl bg-gradient-accent border-2 border-border hover:border-primary/50 cursor-pointer transition-all duration-300 card-hover slide-in-up relative overflow-hidden"
           style={{ animationDelay: `${index * 50}ms` }}
         >
-          <p className="font-semibold text-card-foreground truncate mb-2 group-hover:text-primary transition-colors">
+          <div className="absolute top-0 right-0 w-20 h-20 bg-primary/5 rounded-full -mr-10 -mt-10 group-hover:bg-primary/10 transition-colors" />
+          <p className="font-semibold text-foreground truncate mb-2 group-hover:text-primary transition-colors relative z-10">
             {meeting.title}
           </p>
-          <div className="flex items-center text-xs text-muted-foreground">
+          <div className="flex items-center text-xs text-muted-foreground relative z-10">
             <Clock className="w-3.5 h-3.5 mr-1.5 flex-shrink-0" />
             <span>
               {meeting.createdAt
@@ -52,12 +53,12 @@ export function MeetingsPane() {
   const { meetings, loading, error, hasMore, loadMore } = useMeetings(user);
 
   return (
-    <aside className="w-80 flex-shrink-0 bg-card rounded-xl border border-border shadow-sm flex flex-col slide-in-right">
-      <header className="p-6 border-b border-border flex items-center justify-between">
-        <h2 className="text-lg font-bold text-card-foreground">Meetings</h2>
+    <aside className="w-80 flex-shrink-0 modern-card flex flex-col slide-in-right">
+      <header className="p-6 border-b border-border bg-gradient-accent flex items-center justify-between">
+        <h2 className="text-lg font-bold text-foreground">Meetings</h2>
         <button
           onClick={openUploadModal}
-          className="p-1.5 rounded-md hover:bg-accent text-muted-foreground hover:text-accent-foreground transition-all duration-200 btn-smooth"
+          className="p-2 rounded-lg hover:bg-primary/10 text-muted-foreground hover:text-primary transition-all duration-200 btn-smooth ring-1 ring-transparent hover:ring-primary/20"
           aria-label="Upload a new meeting"
         >
           <Plus className="w-5 h-5" />

@@ -124,15 +124,17 @@ export function VoiceSetupStep({ user, onComplete, onSkip }: VoiceSetupStepProps
   const strokeDashoffset = circumference - (progressPercentage / 100) * circumference;
 
   return (
-    <div className="bg-card shadow-lg rounded-xl p-8 w-full max-w-lg border border-border transition-all duration-300 ease-in-out slide-in-up">
+    <div className="modern-card p-8 w-full max-w-lg fade-in-scale">
       {/* Wizard Header */}
-      <div className="text-center mb-8">
-        <p className="text-sm font-semibold text-primary">STEP 2 OF 3 (Optional)</p>
-        <h1 className="text-3xl font-bold text-card-foreground mt-1">
+      <div className="text-center mb-8 slide-in-down">
+        <div className="inline-flex items-center px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-semibold mb-4">
+          STEP 2 OF 3 • Optional
+        </div>
+        <h1 className="text-3xl font-extrabold text-foreground tracking-tight">
           Create Your Voice Profile
         </h1>
         <p className="text-muted-foreground mt-2">
-          A quick 10-second recording helps identify you in meetings (you can skip this step)
+          A quick 10-second recording helps identify you in meetings
         </p>
       </div>
 
@@ -155,11 +157,11 @@ export function VoiceSetupStep({ user, onComplete, onSkip }: VoiceSetupStepProps
         </div>
 
         {/* Voice Recording Section */}
-        <div className="space-y-3">
-          <label className="text-sm font-medium text-card-foreground block pl-1">
+        <div className="space-y-3 slide-in-up" style={{ animationDelay: '0.1s', animationFillMode: 'backwards' }}>
+          <label className="text-sm font-medium text-foreground block">
             Voice Recording
           </label>
-          <div className="p-6 border-2 border-dashed border-border rounded-xl text-center bg-muted/30 space-y-5 relative overflow-hidden">
+          <div className="p-8 border-2 border-dashed border-border rounded-2xl text-center bg-gradient-accent space-y-5 relative overflow-hidden backdrop-blur-sm">
             {/* Circular Progress Timer */}
             <div className="relative w-32 h-32 mx-auto flex items-center justify-center">
               <svg className="absolute w-full h-full" viewBox="0 0 120 120">
