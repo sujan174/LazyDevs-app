@@ -95,6 +95,11 @@
     /* Add a subtle gradient for depth */
     background-image: radial-gradient(circle at top, oklch(from var(--background) l calc(c / 2) h), oklch(from var(--background) calc(l * 0.95) c h));
   }
+
+  /* Smooth scrolling for better UX */
+  html {
+    scroll-behavior: smooth;
+  }
 }
 
 @layer components {
@@ -128,10 +133,101 @@
   .input-field {
     @apply w-full px-3 py-2 bg-input border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-ring;
   }
-  
+
   /* Custom link style */
   .link {
       @apply text-primary underline-offset-4 hover:underline;
+  }
+
+  /* Subtle animations inspired by modern design */
+  .fade-in {
+    animation: fadeIn 0.5s ease-in-out;
+  }
+
+  .slide-in-up {
+    animation: slideInUp 0.4s ease-out;
+  }
+
+  .slide-in-right {
+    animation: slideInRight 0.4s ease-out;
+  }
+
+  .scale-in {
+    animation: scaleIn 0.3s ease-out;
+  }
+
+  /* Card with hover effect */
+  .card-hover {
+    @apply transition-all duration-300 ease-out;
+  }
+
+  .card-hover:hover {
+    @apply shadow-lg -translate-y-1;
+  }
+
+  /* Button with smooth transition */
+  .btn-smooth {
+    @apply transition-all duration-200 ease-out;
+  }
+
+  .btn-smooth:hover {
+    @apply scale-105;
+  }
+
+  .btn-smooth:active {
+    @apply scale-95;
+  }
+
+  /* Skeleton loading animation */
+  .skeleton {
+    @apply bg-muted animate-pulse rounded;
+  }
+
+  /* Smooth gradient backgrounds */
+  .gradient-bg {
+    background: linear-gradient(135deg, oklch(from var(--primary) l c h / 0.05) 0%, transparent 100%);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
   }
 }
 
