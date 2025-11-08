@@ -6,6 +6,7 @@ import {
   doc,
   addDoc,
   getDoc,
+  setDoc,
   updateDoc,
   collection,
   arrayUnion,
@@ -41,7 +42,8 @@ export function TeamSetupStep({ user, onComplete }: TeamSetupStepProps) {
         createdAt: serverTimestamp(),
       });
       const userDocRef = doc(db, "users", user.uid);
-      await updateDoc(userDocRef, { teamId: newTeamDoc.id });
+      // Use setDoc with merge to create document if it doesn't exist
+      await setDoc(userDocRef, { teamId: newTeamDoc.id }, { merge: true });
 
       // Call the onComplete callback to continue to next step
       onComplete(newTeamDoc.id);
@@ -65,7 +67,8 @@ export function TeamSetupStep({ user, onComplete }: TeamSetupStepProps) {
       if (!teamDoc.exists()) throw new Error("Team ID not found.");
       await updateDoc(teamDocRef, { members: arrayUnion(user.uid) });
       const userDocRef = doc(db, "users", user.uid);
-      await updateDoc(userDocRef, { teamId: teamDoc.id });
+      // Use setDoc with merge to create document if it doesn't exist
+      await setDoc(userDocRef, { teamId: teamDoc.id }, { merge: true });
 
       // Call the onComplete callback to continue to next step
       onComplete(teamDoc.id);
