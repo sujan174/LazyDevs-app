@@ -82,26 +82,32 @@ export function TeamSetupStep({ user, onComplete }: TeamSetupStepProps) {
 
   // Otherwise, show the original create/join form
   return (
-    <div className="bg-white shadow-2xl rounded-2xl p-8 w-full max-w-lg border border-gray-100 transition-all duration-300 ease-in-out">
+    <div className="modern-card p-8 w-full max-w-lg fade-in-scale">
       {/* Wizard Header */}
-      <div className="text-center mb-8">
-        <p className="text-sm font-semibold text-indigo-600">STEP 1 OF 3</p>
-        <h1 className="text-3xl font-extrabold text-gray-900 mt-1">
+      <div className="text-center mb-8 slide-in-down">
+        <div className="inline-flex items-center px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-semibold mb-4">
+          STEP 1 OF 3
+        </div>
+        <h1 className="text-3xl font-extrabold text-foreground tracking-tight">
           Join or Create a Team
         </h1>
-        <p className="text-gray-500 mt-2">
+        <p className="text-muted-foreground mt-2">
           Create a new team to get an ID, or join with an existing ID.
         </p>
       </div>
 
       {/* Create Team Form */}
-      <form onSubmit={handleCreateTeam} className="space-y-4 mb-6">
-        <h2 className="text-lg font-semibold text-gray-800 flex items-center">
-          <Users className="w-5 h-5 mr-3 text-indigo-600" />
-          Create a New Team
-        </h2>
+      <form onSubmit={handleCreateTeam} className="space-y-5 mb-6 slide-in-up" style={{ animationDelay: '0.1s', animationFillMode: 'backwards' }}>
+        <div className="flex items-center gap-3 mb-3">
+          <div className="p-2 bg-primary/10 rounded-lg">
+            <Users className="w-5 h-5 text-primary" />
+          </div>
+          <h2 className="text-lg font-semibold text-foreground">
+            Create a New Team
+          </h2>
+        </div>
         <div className="space-y-2">
-          <label htmlFor="team-name" className="text-sm font-medium text-gray-700 block pl-1">
+          <label htmlFor="team-name" className="text-sm font-medium text-foreground block">
             Team Name
           </label>
           <input
@@ -115,26 +121,30 @@ export function TeamSetupStep({ user, onComplete }: TeamSetupStepProps) {
             disabled={isSubmitting}
           />
         </div>
-        <button type="submit" className="w-full btn-primary inline-flex items-center justify-center disabled:opacity-50" disabled={isSubmitting || !teamName.trim()}>
+        <button type="submit" className="w-full btn-primary inline-flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed" disabled={isSubmitting || !teamName.trim()}>
           {isSubmitting ? <><Loader2 className="w-5 h-5 mr-2 animate-spin" />Creating...</> : "Create Team"}
         </button>
       </form>
 
       {/* Divider */}
-      <div className="relative flex py-2 items-center">
-        <div className="flex-grow border-t border-gray-200"></div>
-        <span className="flex-shrink mx-4 text-xs font-semibold text-gray-400 uppercase">OR</span>
-        <div className="flex-grow border-t border-gray-200"></div>
+      <div className="relative flex py-4 items-center slide-in-up" style={{ animationDelay: '0.2s', animationFillMode: 'backwards' }}>
+        <div className="flex-grow border-t border-border"></div>
+        <span className="flex-shrink mx-4 text-xs font-semibold text-muted-foreground uppercase tracking-wider">OR</span>
+        <div className="flex-grow border-t border-border"></div>
       </div>
 
       {/* Join Team Form */}
-      <form onSubmit={handleJoinTeam} className="space-y-4 mt-6">
-        <h2 className="text-lg font-semibold text-gray-800 flex items-center">
-          <UserPlus className="w-5 h-5 mr-3 text-indigo-600" />
-          Join an Existing Team
-        </h2>
+      <form onSubmit={handleJoinTeam} className="space-y-5 mt-6 slide-in-up" style={{ animationDelay: '0.3s', animationFillMode: 'backwards' }}>
+        <div className="flex items-center gap-3 mb-3">
+          <div className="p-2 bg-primary/10 rounded-lg">
+            <UserPlus className="w-5 h-5 text-primary" />
+          </div>
+          <h2 className="text-lg font-semibold text-foreground">
+            Join an Existing Team
+          </h2>
+        </div>
         <div className="space-y-2">
-          <label htmlFor="team-id" className="text-sm font-medium text-gray-700 block pl-1">
+          <label htmlFor="team-id" className="text-sm font-medium text-foreground block">
             Team ID
           </label>
           <input
@@ -148,16 +158,17 @@ export function TeamSetupStep({ user, onComplete }: TeamSetupStepProps) {
             disabled={isSubmitting}
           />
         </div>
-        <button type="submit" className="w-full btn-primary inline-flex items-center justify-center disabled:opacity-50" disabled={isSubmitting || !joinTeamId.trim()}>
+        <button type="submit" className="w-full btn-primary inline-flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed" disabled={isSubmitting || !joinTeamId.trim()}>
           {isSubmitting ? <><Loader2 className="w-5 h-5 mr-2 animate-spin" />Joining...</> : "Join Team"}
         </button>
       </form>
 
       {/* Error Display */}
        {error && (
-            <p className="text-red-600 text-sm text-center mt-6 flex items-center justify-center">
-              <XCircle className="w-4 h-4 mr-1.5" /> {error}
-            </p>
+            <div className="mt-6 p-4 bg-destructive/10 border border-destructive/20 rounded-lg flex items-center gap-2 text-destructive slide-in-up">
+              <XCircle className="w-5 h-5 flex-shrink-0" />
+              <p className="text-sm font-medium">{error}</p>
+            </div>
         )}
     </div>
   );
