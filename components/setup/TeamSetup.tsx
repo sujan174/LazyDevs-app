@@ -19,9 +19,10 @@ import { Loader2, Users, UserPlus, XCircle, Copy, Download, ArrowRight } from "l
 
 interface TeamSetupStepProps {
   user: User;
+  onComplete: (teamId: string) => void;
 }
 
-export function TeamSetupStep({ user }: TeamSetupStepProps) {
+export function TeamSetupStep({ user, onComplete }: TeamSetupStepProps) {
   const [teamName, setTeamName] = useState("");
   const [joinTeamId, setJoinTeamId] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
