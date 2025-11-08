@@ -8,6 +8,7 @@ import { format } from "date-fns";
 import { useAuth } from "@/hooks/useAuth";
 import { useMeetings } from "@/hooks/useMeetings";
 import { formatDuration } from "@/lib/utils/formatters";
+import { MeetingsPaneSkeleton } from "@/components/ui/Skeleton";
 
 // Memoized meeting card component for better performance
 const MeetingCard = memo(
@@ -48,7 +49,7 @@ MeetingCard.displayName = "MeetingCard";
 export function MeetingsPane() {
   const { openUploadModal } = useUploadModal();
   const { user } = useAuth();
-  const { meetings, loading, error } = useMeetings(user);
+  const { meetings, loading, error, hasMore, loadMore } = useMeetings(user);
 
   return (
     <aside className="w-80 flex-shrink-0 bg-card rounded-xl border border-border shadow-sm flex flex-col slide-in-right">
@@ -65,9 +66,7 @@ export function MeetingsPane() {
 
       <div className="flex-1 p-4 overflow-y-auto">
         {loading ? (
-          <div className="flex justify-center items-center h-full">
-            <Loader2 className="w-6 h-6 animate-spin text-primary" />
-          </div>
+          <MeetingsPaneSkeleton />
         ) : error ? (
           <div className="text-center py-10 px-4 fade-in">
             <AlertCircle className="mx-auto h-12 w-12 text-destructive" />
@@ -93,11 +92,21 @@ export function MeetingsPane() {
             </p>
           </div>
         ) : (
-          <div className="space-y-3">
-            {meetings.map((meeting, index) => (
-              <MeetingCard key={meeting.id} meeting={meeting} index={index} />
-            ))}
-          </div>
+          <>
+            <div className="space-y-3">
+              {meetings.map((meeting, index) => (
+                <MeetingCard key={meeting.id} meeting={meeting} index={index} />
+              ))}
+            </div>
+            {hasMore && (
+              <button
+                onClick={loadMore}
+                className="w-full mt-4 py-2 px-4 text-sm text-primary hover:text-primary/80 font-medium transition-colors btn-smooth"
+              >
+                Load more meetings
+              </button>
+            )}
+          </>
         )}
       </div>
     </aside>

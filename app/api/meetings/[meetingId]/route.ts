@@ -61,10 +61,10 @@ export async function GET(
 // PATCH - Update speaker resolutions
 export async function PATCH(
   request: Request,
-  { params }: { params: { meetingId: string } }
+  { params }: { params: Promise<{ meetingId: string }> }
 ) {
   try {
-    const { meetingId } = params;
+    const { meetingId } = await params;
     const body = await request.json();
     const { speakerResolutions } = body;
 
@@ -110,10 +110,10 @@ export async function PATCH(
 // DELETE - Delete a meeting
 export async function DELETE(
   request: Request,
-  { params }: { params: { meetingId: string } }
+  { params }: { params: Promise<{ meetingId: string }> }
 ) {
   try {
-    const { meetingId } = params;
+    const { meetingId } = await params;
 
     if (!meetingId) {
       return NextResponse.json(
