@@ -99,7 +99,7 @@ const ProfileSettings = ({ user }: { user: UserProfile | null }) => {
     };
 
     return (
-        <div className="modern-card p-6 sm:p-8">
+        <div className="modern-card p-6 sm:p-8 card-hover">
             <h2 className="text-2xl font-semibold text-foreground mb-1">Profile</h2>
             <p className="text-muted-foreground mb-6">This is how your name will appear in transcripts.</p>
             <form onSubmit={handleProfileUpdate}>
@@ -174,7 +174,7 @@ const SecuritySettings = () => {
     };
 
     return (
-        <div className="modern-card p-6 sm:p-8">
+        <div className="modern-card p-6 sm:p-8 card-hover">
             <h2 className="text-2xl font-semibold text-foreground mb-1">Password</h2>
             <p className="text-muted-foreground mb-6">Update the password associated with your account.</p>
             <form onSubmit={handlePasswordUpdate}>
@@ -264,7 +264,7 @@ const Integrations = ({ teamId, teamData, onDisconnectIntegration }: {
     };
 
     return (
-        <div className="modern-card p-6 sm:p-8">
+        <div className="modern-card p-6 sm:p-8 card-hover">
             <h2 className="text-2xl font-semibold text-foreground mb-1">Integrations</h2>
             <p className="text-muted-foreground mb-6">Connect your favorite apps to streamline your workflow.</p>
             <ul className="space-y-4">
@@ -316,14 +316,14 @@ const Integrations = ({ teamId, teamData, onDisconnectIntegration }: {
 };
 
 const DangerZone = () => (
-    <div className="mt-8 bg-destructive/10 border border-destructive/30 rounded-lg p-6 sm:p-8">
+    <div className="mt-8 bg-destructive/10 border border-destructive/30 rounded-lg p-6 sm:p-8 card-hover">
         <h3 className="text-xl font-bold text-destructive">Danger Zone</h3>
         <div className="mt-4 flex flex-col sm:flex-row items-start sm:items-center justify-between">
             <div>
                 <p className="font-semibold text-foreground">Delete Your Account</p>
                 <p className="text-muted-foreground text-sm mt-1">Once you delete your account, there is no going back. Please be certain.</p>
             </div>
-            <button className="mt-4 sm:mt-0 flex items-center gap-2 bg-card hover:bg-destructive/20 text-destructive font-bold py-2 px-4 rounded-lg transition-all border border-destructive/50">
+            <button className="mt-4 sm:mt-0 flex items-center gap-2 bg-card hover:bg-destructive/20 text-destructive font-bold py-2 px-4 rounded-lg transition-all border border-destructive/50 hover:scale-105">
                 <Trash2 className="w-4 h-4" />
                 Delete Account
             </button>
@@ -411,17 +411,25 @@ export default function SettingsPage() {
     }
 
     return (
-        <div className="bg-background text-foreground min-h-screen font-sans">
+        <div className="bg-background text-foreground min-h-screen font-sans page-transition">
             <div className="container mx-auto p-4 sm:p-6 lg:p-8">
-                <header className="mb-8">
+                <header className="mb-8 slide-in-down">
                     <h1 className="text-3xl font-bold text-foreground">Settings</h1>
                     <p className="text-muted-foreground mt-1">Manage your account and integrations.</p>
                 </header>
-                <main className="max-w-3xl mx-auto space-y-8">
-                    <ProfileSettings user={user} />
-                    <SecuritySettings />
-                    <Integrations teamId={user?.teamId || null} teamData={teamData} onDisconnectIntegration={handleDisconnectIntegration}/>
-                    <DangerZone />
+                <main className="max-w-3xl mx-auto space-y-8 fade-in">
+                    <div className="slide-in-up stagger-1">
+                        <ProfileSettings user={user} />
+                    </div>
+                    <div className="slide-in-up stagger-2">
+                        <SecuritySettings />
+                    </div>
+                    <div className="slide-in-up stagger-3">
+                        <Integrations teamId={user?.teamId || null} teamData={teamData} onDisconnectIntegration={handleDisconnectIntegration}/>
+                    </div>
+                    <div className="slide-in-up stagger-4">
+                        <DangerZone />
+                    </div>
                 </main>
             </div>
         </div>

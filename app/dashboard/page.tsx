@@ -5,11 +5,11 @@ import { Sparkles, Wand2 } from "lucide-react";
 export default function DashboardPage() {
   return (
     <div className="h-full flex flex-col page-transition">
-      <div className="flex-1 flex flex-col max-w-4xl mx-auto w-full px-4 sm:px-6 py-8">
+      <div className="flex-1 flex flex-col max-w-4xl mx-auto w-full px-4 sm:px-6 py-4">
         {/* Main AI Chat Interface - Beautiful & Minimal */}
-        <div className="flex-1 flex flex-col bg-card/40 backdrop-blur-xl border border-border rounded-3xl shadow-sm overflow-hidden slide-in-up min-h-0">
+        <div className="flex-1 flex flex-col bg-card/40 backdrop-blur-xl border border-border rounded-3xl shadow-sm overflow-hidden slide-in-up">
           {/* Elegant Header */}
-          <header className="px-6 py-5 border-b border-border/60 bg-gradient-to-r from-primary/3 via-accent/3 to-transparent">
+          <header className="px-6 py-4 border-b border-border/60 bg-gradient-to-r from-primary/3 via-accent/3 to-transparent flex-shrink-0">
             <div className="flex items-center gap-4">
               <div className="relative">
                 <div className="absolute inset-0 bg-gradient-to-br from-primary/30 to-accent/30 rounded-2xl blur-xl"></div>
@@ -121,7 +121,7 @@ export default function DashboardPage() {
           </div>
 
           {/* Input Area with subtle gradient */}
-          <div className="border-t border-border/60 bg-gradient-to-b from-transparent to-muted/20 p-4 sm:p-6">
+          <div className="border-t border-border/60 bg-gradient-to-b from-transparent to-muted/20 p-4 sm:p-6 flex-shrink-0">
             <ChatInput />
           </div>
         </div>
