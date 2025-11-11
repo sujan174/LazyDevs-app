@@ -99,27 +99,27 @@ const ProfileSettings = ({ user }: { user: UserProfile | null }) => {
     };
 
     return (
-        <div className="bg-white border border-gray-200 rounded-lg p-6 sm:p-8 shadow-sm">
-            <h2 className="text-2xl font-semibold text-gray-900 mb-1">Profile</h2>
-            <p className="text-gray-500 mb-6">This is how your name will appear in transcripts.</p>
+        <div className="modern-card p-6 sm:p-8">
+            <h2 className="text-2xl font-semibold text-foreground mb-1">Profile</h2>
+            <p className="text-muted-foreground mb-6">This is how your name will appear in transcripts.</p>
             <form onSubmit={handleProfileUpdate}>
                 <div className="space-y-6">
                     <div>
-                        <label htmlFor="fullName" className="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
-                        <input 
-                            type="text" 
-                            id="fullName" 
+                        <label htmlFor="fullName" className="block text-sm font-medium text-foreground mb-2">Full Name</label>
+                        <input
+                            type="text"
+                            id="fullName"
                             value={fullName}
                             onChange={(e) => setFullName(e.target.value)}
-                            className="w-full max-w-md bg-white border border-gray-300 rounded-md py-2 px-3 text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition"
+                            className="input-field max-w-md"
                         />
                     </div>
                 </div>
-                <div className="mt-8 pt-6 border-t border-gray-200 flex justify-end items-center gap-4">
+                <div className="mt-8 pt-6 border-t border-border flex justify-end items-center gap-4">
                     {message.content && (
-                        <p className={`text-sm ${message.type === 'success' ? 'text-green-600' : 'text-red-600'}`}>{message.content}</p>
+                        <p className={`text-sm ${message.type === 'success' ? 'text-success' : 'text-destructive'}`}>{message.content}</p>
                     )}
-                    <button type="submit" disabled={loading} className="btn-primary inline-flex items-center disabled:bg-indigo-400">
+                    <button type="submit" disabled={loading} className="btn-primary inline-flex items-center disabled:opacity-50">
                         {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                         Save Changes
                     </button>
@@ -174,29 +174,29 @@ const SecuritySettings = () => {
     };
 
     return (
-        <div className="bg-white border border-gray-200 rounded-lg p-6 sm:p-8 shadow-sm">
-            <h2 className="text-2xl font-semibold text-gray-900 mb-1">Password</h2>
-            <p className="text-gray-500 mb-6">Update the password associated with your account.</p>
+        <div className="modern-card p-6 sm:p-8">
+            <h2 className="text-2xl font-semibold text-foreground mb-1">Password</h2>
+            <p className="text-muted-foreground mb-6">Update the password associated with your account.</p>
             <form onSubmit={handlePasswordUpdate}>
                 <div className="space-y-6 max-w-md">
                     <div>
-                        <label htmlFor="currentPassword" className="block text-sm font-medium text-gray-700 mb-2">Current Password</label>
+                        <label htmlFor="currentPassword" className="block text-sm font-medium text-foreground mb-2">Current Password</label>
                         <input type="password" id="currentPassword" value={currentPassword} onChange={(e) => setCurrentPassword(e.target.value)} required className="input-field" />
                     </div>
                     <div>
-                        <label htmlFor="newPassword" className="block text-sm font-medium text-gray-700 mb-2">New Password</label>
+                        <label htmlFor="newPassword" className="block text-sm font-medium text-foreground mb-2">New Password</label>
                         <input type="password" id="newPassword" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} required className="input-field" />
                     </div>
                     <div>
-                        <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 mb-2">Confirm New Password</label>
+                        <label htmlFor="confirmPassword" className="block text-sm font-medium text-foreground mb-2">Confirm New Password</label>
                         <input type="password" id="confirmPassword" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} required className="input-field" />
                     </div>
                 </div>
-                <div className="mt-8 pt-6 border-t border-gray-200 flex justify-end items-center gap-4">
+                <div className="mt-8 pt-6 border-t border-border flex justify-end items-center gap-4">
                      {message.content && (
-                        <p className={`text-sm ${message.type === 'success' ? 'text-green-600' : 'text-red-600'}`}>{message.content}</p>
+                        <p className={`text-sm ${message.type === 'success' ? 'text-success' : 'text-destructive'}`}>{message.content}</p>
                     )}
-                    <button type="submit" disabled={loading} className="btn-primary inline-flex items-center disabled:bg-indigo-400">
+                    <button type="submit" disabled={loading} className="btn-primary inline-flex items-center disabled:opacity-50">
                         {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                         Update Password
                     </button>
@@ -264,9 +264,9 @@ const Integrations = ({ teamId, teamData, onDisconnectIntegration }: {
     };
 
     return (
-        <div className="bg-white border border-gray-200 rounded-lg p-6 sm:p-8 shadow-sm">
-            <h2 className="text-2xl font-semibold text-gray-900 mb-1">Integrations</h2>
-            <p className="text-gray-500 mb-6">Connect your favorite apps to streamline your workflow.</p>
+        <div className="modern-card p-6 sm:p-8">
+            <h2 className="text-2xl font-semibold text-foreground mb-1">Integrations</h2>
+            <p className="text-muted-foreground mb-6">Connect your favorite apps to streamline your workflow.</p>
             <ul className="space-y-4">
                 {integrations.map((integration) => {
                     const Icon = integration.icon;
@@ -274,25 +274,25 @@ const Integrations = ({ teamId, teamData, onDisconnectIntegration }: {
                     const connecting = isConnecting === integration.id;
 
                     return (
-                        <li key={integration.id} className="flex items-center justify-between bg-gray-50 p-4 rounded-md border border-gray-200">
+                        <li key={integration.id} className="flex items-center justify-between bg-secondary/30 p-4 rounded-lg border border-border/50 hover:border-primary/30 transition-all">
                             <div className="flex items-center gap-4">
-                                <div className="bg-white p-2 border border-gray-200 rounded-md">
+                                <div className="bg-card p-2 border border-border rounded-lg">
                                     <Icon />
                                 </div>
                                 <div>
-                                    <p className="font-semibold text-gray-800">{integration.name}</p>
-                                    <p className="text-sm text-gray-500">{integration.description}</p>
+                                    <p className="font-semibold text-foreground">{integration.name}</p>
+                                    <p className="text-sm text-muted-foreground">{integration.description}</p>
                                 </div>
                             </div>
                             {connected ? (
                                 <div className="flex items-center gap-4">
-                                    <span className="flex items-center gap-2 text-sm text-green-600 font-medium">
+                                    <span className="flex items-center gap-2 text-sm text-success font-medium">
                                         <CheckCircle className="w-4 h-4"/>
                                         Connected
                                     </span>
                                     <button
                                         onClick={() => onDisconnectIntegration(integration.id)}
-                                        className="text-sm text-red-500 hover:text-red-700 font-medium"
+                                        className="text-sm text-destructive hover:text-destructive/80 font-medium transition-colors"
                                     >
                                         Disconnect
                                     </button>
@@ -301,7 +301,7 @@ const Integrations = ({ teamId, teamData, onDisconnectIntegration }: {
                                 <button
                                     onClick={() => handleConnectClick(integration.id)}
                                     disabled={connecting}
-                                    className="flex items-center gap-2 bg-white hover:bg-gray-50 border border-gray-300 text-gray-700 font-semibold py-2 px-4 rounded-md transition-colors text-sm disabled:opacity-50"
+                                    className="flex items-center gap-2 btn-secondary text-sm disabled:opacity-50"
                                 >
                                     {connecting ? <Loader2 className="w-4 h-4 animate-spin" /> : <LinkIcon className="w-4 h-4" />}
                                     <span>{connecting ? "Redirecting..." : "Connect"}</span>
@@ -316,14 +316,14 @@ const Integrations = ({ teamId, teamData, onDisconnectIntegration }: {
 };
 
 const DangerZone = () => (
-    <div className="mt-8 bg-white border border-red-300 rounded-lg p-6 sm:p-8 shadow-sm">
-        <h3 className="text-xl font-bold text-red-600">Danger Zone</h3>
+    <div className="mt-8 bg-destructive/10 border border-destructive/30 rounded-lg p-6 sm:p-8">
+        <h3 className="text-xl font-bold text-destructive">Danger Zone</h3>
         <div className="mt-4 flex flex-col sm:flex-row items-start sm:items-center justify-between">
             <div>
-                <p className="font-semibold text-gray-800">Delete Your Account</p>
-                <p className="text-gray-500 text-sm mt-1">Once you delete your account, there is no going back. Please be certain.</p>
+                <p className="font-semibold text-foreground">Delete Your Account</p>
+                <p className="text-muted-foreground text-sm mt-1">Once you delete your account, there is no going back. Please be certain.</p>
             </div>
-            <button className="mt-4 sm:mt-0 flex items-center gap-2 bg-white hover:bg-red-50 text-red-600 font-bold py-2 px-4 rounded-md transition-colors border border-red-300">
+            <button className="mt-4 sm:mt-0 flex items-center gap-2 bg-card hover:bg-destructive/20 text-destructive font-bold py-2 px-4 rounded-lg transition-all border border-destructive/50">
                 <Trash2 className="w-4 h-4" />
                 Delete Account
             </button>
@@ -404,18 +404,18 @@ export default function SettingsPage() {
 
     if (loading) {
         return (
-            <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-                <Loader2 className="h-12 w-12 animate-spin text-indigo-600" />
+            <div className="min-h-screen bg-background flex items-center justify-center">
+                <Loader2 className="h-12 w-12 animate-spin text-primary" />
             </div>
         );
     }
 
     return (
-        <div className="bg-gray-50 text-gray-800 min-h-screen font-sans">
+        <div className="bg-background text-foreground min-h-screen font-sans">
             <div className="container mx-auto p-4 sm:p-6 lg:p-8">
                 <header className="mb-8">
-                    <h1 className="text-3xl font-bold text-gray-900">Settings</h1>
-                    <p className="text-gray-600 mt-1">Manage your account, and integrations.</p>
+                    <h1 className="text-3xl font-bold text-foreground">Settings</h1>
+                    <p className="text-muted-foreground mt-1">Manage your account and integrations.</p>
                 </header>
                 <main className="max-w-3xl mx-auto space-y-8">
                     <ProfileSettings user={user} />
