@@ -92,8 +92,8 @@
   }
   body {
     @apply bg-background text-foreground font-sans;
-    /* Add a subtle gradient for depth */
-    background-image: radial-gradient(circle at top, oklch(from var(--background) l calc(c / 2) h), oklch(from var(--background) calc(l * 0.95) c h));
+    /* Simplified gradient for better performance */
+    background-color: var(--background);
   }
 
   /* Smooth scrolling for better UX */
@@ -129,18 +129,9 @@
     @apply p-6 pt-0;
   }
 
-  /* Modern Primary Button */
+  /* Modern Primary Button - Optimized for performance */
   .btn-primary {
-    @apply px-6 py-2.5 bg-primary text-primary-foreground rounded-lg font-medium shadow-lg shadow-primary/30 hover:shadow-xl hover:shadow-primary/40 transition-all duration-300 hover:scale-[1.02] active:scale-95 relative overflow-hidden;
-  }
-
-  .btn-primary::before {
-    content: '';
-    @apply absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-200%] transition-transform duration-700;
-  }
-
-  .btn-primary:hover::before {
-    @apply translate-x-[200%];
+    @apply px-6 py-2.5 bg-primary text-primary-foreground rounded-lg font-medium shadow-lg shadow-primary/30 hover:shadow-xl hover:shadow-primary/40 transition-all duration-300 hover:scale-[1.02] active:scale-95;
   }
 
   /* Secondary Button */
@@ -175,7 +166,7 @@
 
   .modern-card::before {
     content: '';
-    @apply absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent;
+    @apply absolute top-0 left-0 right-0 h-px bg-primary/10;
   }
 
   /* Subtle animations inspired by modern design */
@@ -213,15 +204,9 @@
     @apply transition-all duration-200 ease-out hover:scale-105 active:scale-95;
   }
 
-  /* Skeleton loading animation */
+  /* Skeleton loading animation - Optimized */
   .skeleton {
-    @apply bg-muted/50 animate-pulse rounded relative overflow-hidden;
-  }
-
-  .skeleton::after {
-    content: '';
-    @apply absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent translate-x-[-200%];
-    animation: shimmer 2s infinite;
+    @apply bg-muted/50 animate-pulse rounded;
   }
 
   /* Smooth gradient backgrounds */
@@ -260,9 +245,9 @@
     animation: float 3s ease-in-out infinite;
   }
 
-  /* Pulse glow effect */
+  /* Pulse glow effect - Optimized with opacity instead of box-shadow */
   .pulse-glow {
-    animation: pulseGlow 2s ease-in-out infinite;
+    animation: pulseOpacity 2s ease-in-out infinite;
   }
 }
 
@@ -330,15 +315,6 @@
   }
 }
 
-@keyframes shimmer {
-  0% {
-    transform: translateX(-100%);
-  }
-  100% {
-    transform: translateX(100%);
-  }
-}
-
 @keyframes float {
   0%, 100% {
     transform: translateY(0px);
@@ -348,12 +324,22 @@
   }
 }
 
-@keyframes pulseGlow {
+@keyframes pulseOpacity {
   0%, 100% {
-    box-shadow: 0 0 20px oklch(from var(--primary) l c h / 0.3);
+    opacity: 1;
   }
   50% {
-    box-shadow: 0 0 30px oklch(from var(--primary) l c h / 0.6);
+    opacity: 0.7;
   }
+}
+
+/* Performance optimization: Use GPU acceleration for animations */
+.fade-in, .slide-in-up, .slide-in-right, .slide-in-down, .scale-in, .fade-in-scale, .card-hover, .btn-smooth {
+  will-change: transform, opacity;
+}
+
+/* Remove will-change after animation completes to free GPU resources */
+.fade-in, .slide-in-up, .slide-in-right, .slide-in-down, .scale-in, .fade-in-scale {
+  animation-fill-mode: forwards;
 }
 

@@ -5,7 +5,7 @@ import Link from "next/link";
 import { Clock, Plus, Loader2, FileText, AlertCircle } from "lucide-react";
 import { useUploadModal } from "@/contexts/UploadModalProvider";
 import { format } from "date-fns";
-import { useAuth } from "@/hooks/useAuth";
+import { useAuth } from "@/contexts/AuthProvider";
 import { useMeetings } from "@/hooks/useMeetings";
 import { formatDuration } from "@/lib/utils/formatters";
 import { MeetingsPaneSkeleton } from "@/components/ui/Skeleton";

@@ -1,9 +1,10 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
-import { getAuth, onAuthStateChanged, updatePassword, reauthenticateWithCredential, EmailAuthProvider, User as FirebaseUser, updateProfile } from 'firebase/auth';
+import React, { useState, useEffect, useMemo } from 'react';
+import { getAuth, updatePassword, reauthenticateWithCredential, EmailAuthProvider, User as FirebaseUser, updateProfile } from 'firebase/auth';
 import { getFirestore, doc, getDoc, updateDoc, setDoc, collection, getDocs } from 'firebase/firestore';
 import { app } from '@/lib/firebase';
+import { useAuth } from '@/contexts/AuthProvider';
 import { User, Shield, Upload, Trash2, Camera, Link as LinkIcon, Loader2, X, CheckCircle } from 'lucide-react';
 
 const auth = getAuth(app);
@@ -330,49 +331,52 @@ const DangerZone = () => (
 
 
 export default function SettingsPage() {
-    const [user, setUser] = useState<UserProfile | null>(null);
+    const { user: firebaseUser, userData, loading: authLoading } = useAuth();
     const [teamData, setTeamData] = useState<TeamData | null>(null);
     const [loading, setLoading] = useState(true);
 
+    // Combine Firebase user with Firestore data
+    const user: UserProfile | null = useMemo(() => {
+        if (!firebaseUser || !userData) return null;
+        return { ...firebaseUser, ...userData };
+    }, [firebaseUser, userData]);
+
     useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
-            if (currentUser) {
-                const userDocRef = doc(db, "users", currentUser.uid);
-                const userDoc = await getDoc(userDocRef);
-
-                let combinedUser: UserProfile = currentUser;
-                if (userDoc.exists()) {
-                    const firestoreData = userDoc.data();
-                    combinedUser = { ...currentUser, ...firestoreData };
-                }
-                setUser(combinedUser);
-
-                if (combinedUser.teamId) {
-                    const teamDocRef = doc(db, "teams", combinedUser.teamId);
-                    const teamDoc = await getDoc(teamDocRef);
-
-                    // Fetch integrations from subcollection
-                    const integrationsRef = collection(db, "teams", combinedUser.teamId, "integrations");
-                    const integrationsSnapshot = await getDocs(integrationsRef);
-
-                    const integrations: Record<string, Integration> = {};
-                    integrationsSnapshot.forEach((doc) => {
-                        integrations[doc.id] = doc.data() as Integration;
-                    });
-
-                    if (teamDoc.exists()) {
-                        setTeamData({ ...teamDoc.data(), integrations });
-                    } else {
-                        setTeamData({ integrations });
-                    }
-                }
-            } else {
-                setUser(null);
+        // Fetch team data and integrations in parallel once user is available
+        const fetchTeamData = async () => {
+            if (!userData?.teamId) {
+                setLoading(false);
+                return;
             }
-            setLoading(false);
-        });
-        return () => unsubscribe();
-    }, []);
+
+            try {
+                // Fetch team data and integrations in parallel
+                const [teamDoc, integrationsSnapshot] = await Promise.all([
+                    getDoc(doc(db, "teams", userData.teamId)),
+                    getDocs(collection(db, "teams", userData.teamId, "integrations"))
+                ]);
+
+                const integrations: Record<string, Integration> = {};
+                integrationsSnapshot.forEach((doc) => {
+                    integrations[doc.id] = doc.data() as Integration;
+                });
+
+                if (teamDoc.exists()) {
+                    setTeamData({ ...teamDoc.data(), integrations });
+                } else {
+                    setTeamData({ integrations });
+                }
+            } catch (error) {
+                console.error("Error fetching team data:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        if (!authLoading) {
+            fetchTeamData();
+        }
+    }, [userData?.teamId, authLoading]);
 
     const handleDisconnectIntegration = async (provider: string) => {
         if (!user?.teamId) return;
