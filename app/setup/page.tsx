@@ -22,7 +22,7 @@ const IntegrationsSetupStep = lazy(() =>
 type SetupStep = "team" | "voice" | "integrations";
 
 export default function SetupPage() {
-  const { user, userData, loading: authLoading } = useAuth();
+  const { user, userData, loading: authLoading, refreshUserData } = useAuth();
   const [setupStep, setSetupStep] = useState<SetupStep>("team");
   const [teamId, setTeamId] = useState<string | null>(null);
   const router = useRouter();
@@ -43,8 +43,10 @@ export default function SetupPage() {
     }
   }, [user, userData, authLoading, router]);
 
-  const handleTeamComplete = (newTeamId: string) => {
+  const handleTeamComplete = async (newTeamId: string) => {
     setTeamId(newTeamId);
+    // Refresh user data to get the updated teamId
+    await refreshUserData();
     setSetupStep("voice");
   };
 
