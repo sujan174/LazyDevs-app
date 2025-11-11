@@ -35,7 +35,7 @@ export function ChatInput() {
 
   return (
     <form onSubmit={handleSubmit} className="w-full">
-      <div className="relative flex items-end gap-3 p-4 bg-white border-2 border-border rounded-2xl shadow-sm hover:border-primary/40 focus-within:border-primary/50 transition-all">
+      <div className="relative flex items-end gap-3 p-4 bg-card border border-border rounded-3xl shadow-sm hover:border-border/80 focus-within:border-primary/50 transition-all">
         <textarea
           ref={textareaRef}
           value={message}
@@ -49,7 +49,7 @@ export function ChatInput() {
         <button
           type="submit"
           disabled={!message.trim()}
-          className="flex-shrink-0 p-2.5 bg-primary text-primary-foreground rounded-xl hover:bg-primary/90 disabled:opacity-40 disabled:cursor-not-allowed transition-all hover:scale-105 active:scale-95"
+          className="flex-shrink-0 p-2.5 bg-primary text-primary-foreground rounded-xl hover:bg-primary/90 disabled:opacity-30 disabled:cursor-not-allowed transition-all hover:scale-105 active:scale-95 shadow-sm"
           aria-label="Send message"
         >
           <ArrowUp className="w-5 h-5" strokeWidth={2.5} />
