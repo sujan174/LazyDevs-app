@@ -1,9 +1,8 @@
 "use client";
 
-import { useState, useEffect, ReactNode, lazy, Suspense } from "react";
+import { useState, ReactNode, lazy, Suspense } from "react";
 import { useRouter } from "next/navigation";
-import { onAuthStateChanged, User } from "firebase/auth";
-import { auth } from "@/lib/firebase";
+import { useAuth } from "@/contexts/AuthProvider";
 import { Sidebar } from "@/components/dashboard/Sidebar";
 import { Header } from "@/components/dashboard/Header";
 import { Loader2 } from "lucide-react";
@@ -18,10 +17,11 @@ const UploadModal = lazy(() =>
 );
 
 // Helper component to render the modal with lazy loading
-function DashboardModalController({ user }: { user: User }) {
+function DashboardModalController() {
   const { isUploadModalOpen } = useUploadModal();
+  const { user } = useAuth();
 
-  if (!isUploadModalOpen) return null;
+  if (!isUploadModalOpen || !user) return null;
 
   // Render the lazy-loaded UploadModal with a fallback loader
   return (
@@ -42,24 +42,17 @@ export default function DashboardLayout({
 }: {
   children: ReactNode;
 }) {
-  const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState(true);
   const [isSidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const { user, loading } = useAuth();
   const router = useRouter();
 
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      if (currentUser) {
-        setUser(currentUser);
-        setLoading(false);
-      } else {
-        router.push("/login");
-      }
-    });
-    return () => unsubscribe();
-  }, [router]);
+  // Redirect to login if not authenticated
+  if (!loading && !user) {
+    router.push("/login");
+    return null;
+  }
 
-  if (loading || !user) {
+  if (loading) {
     return (
       <div className="flex h-screen w-full items-center justify-center bg-background">
         <div className="flex flex-col items-center space-y-4 fade-in">
@@ -82,7 +75,7 @@ export default function DashboardLayout({
           }`}
         >
           <Header
-            user={user}
+            user={user!}
             toggleSidebar={() => setSidebarCollapsed(!isSidebarCollapsed)}
           />
           <main className="flex-1 overflow-y-auto">
@@ -90,7 +83,7 @@ export default function DashboardLayout({
           </main>
         </div>
         {/* Lazy-loaded modal component */}
-        <DashboardModalController user={user} />
+        <DashboardModalController />
       </div>
     </ErrorBoundary>
   );

@@ -2,38 +2,30 @@
 
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { onAuthStateChanged } from "firebase/auth";
-import { doc, getDoc } from "firebase/firestore";
-import { auth, db } from "@/lib/firebase";
+import { useAuth } from "@/contexts/AuthProvider";
 import { Loader2 } from "lucide-react";
 
 export default function HomePage() {
   const router = useRouter();
+  const { user, userData, loading } = useAuth();
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
-      if (currentUser) {
-        // User is logged in, check their full profile status in Firestore
-        const userDocRef = doc(db, "users", currentUser.uid);
-        const userDoc = await getDoc(userDocRef);
+    if (loading) return;
 
-        // A user is fully set up if their document exists AND they have a teamId
-        if (userDoc.exists() && userDoc.data().teamId) {
-          // User is fully onboarded, send them to the real dashboard
-          router.push("/dashboard");
-        } else {
-          // User profile is incomplete, send them to the setup wizard
-          router.push("/setup");
-        }
+    if (user && userData) {
+      // A user is fully set up if their document exists AND they have a teamId
+      if (userData.teamId) {
+        // User is fully onboarded, send them to the real dashboard
+        router.push("/dashboard");
       } else {
-        // User is not logged in, send them to the login page
-        router.push("/login");
+        // User profile is incomplete, send them to the setup wizard
+        router.push("/setup");
       }
-    });
-
-    // Clean up the subscription when the component unmounts
-    return () => unsubscribe();
-  }, [router]);
+    } else {
+      // User is not logged in, send them to the login page
+      router.push("/login");
+    }
+  }, [user, userData, loading, router]);
 
   // This page will only ever show a loading screen while it determines where to redirect the user.
   return (

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, memo, useCallback, useEffect } from "react";
+import { useState, memo, useCallback, useEffect, useMemo } from "react";
 import { useParams, useRouter } from "next/navigation";
 import {
   Loader2,
@@ -325,9 +325,9 @@ export default function MeetingDetailPage() {
     router.push("/dashboard");
   }, [router]);
 
-  // Group actions by type
-  const groupedActions =
-    meeting?.actions?.reduce(
+  // Group actions by type - memoized to prevent recomputation on every render
+  const groupedActions = useMemo(() => {
+    return meeting?.actions?.reduce(
       (acc, action) => {
         const type = action.action;
         if (!acc[type]) acc[type] = [];
@@ -336,9 +336,12 @@ export default function MeetingDetailPage() {
       },
       {} as Record<string, ActionItem[]>
     ) || {};
+  }, [meeting?.actions]);
 
-  const hasActions =
-    meeting?.actions && Array.isArray(meeting.actions) && meeting.actions.length > 0;
+  const hasActions = useMemo(
+    () => meeting?.actions && Array.isArray(meeting.actions) && meeting.actions.length > 0,
+    [meeting?.actions]
+  );
   const isProcessing = meeting?.status === "processing" || isGenerating;
 
   // --- Render Logic ---
