@@ -44,54 +44,54 @@
 }
 
 :root {
-  /* Aerius "Enterprise Intelligence" - Professional, trustworthy, sophisticated */
+  /* Aerius "Refined Comfort" - Subtle, elegant, easy on the eyes */
   --radius: 0.75rem;
 
-  /* Cool slate background - professional and clean */
-  --background: oklch(0.12 0.015 250);
-  --foreground: oklch(0.98 0.005 250);
+  /* Soft elevated background - inspired by Claude & Gemini */
+  --background: oklch(0.16 0.008 250);
+  --foreground: oklch(0.92 0.010 40);
 
-  /* Cards with elevated appearance */
-  --card: oklch(0.16 0.018 250);
-  --card-foreground: oklch(0.98 0.005 250);
+  /* Cards with gentle elevation */
+  --card: oklch(0.19 0.010 250);
+  --card-foreground: oklch(0.92 0.010 40);
 
   /* Popovers slightly elevated */
-  --popover: oklch(0.18 0.018 250);
-  --popover-foreground: oklch(0.98 0.005 250);
+  --popover: oklch(0.21 0.010 250);
+  --popover-foreground: oklch(0.92 0.010 40);
 
-  /* Deep indigo-blue primary - professional and trustworthy */
-  --primary: oklch(0.55 0.22 265);
-  --primary-foreground: oklch(0.99 0.005 250);
+  /* Soft indigo-blue primary - comfortable and trustworthy */
+  --primary: oklch(0.62 0.14 265);
+  --primary-foreground: oklch(0.98 0.005 250);
 
-  /* Slate secondary for subtle emphasis */
-  --secondary: oklch(0.22 0.015 250);
-  --secondary-foreground: oklch(0.95 0.005 250);
+  /* Subtle secondary for gentle emphasis */
+  --secondary: oklch(0.25 0.012 250);
+  --secondary-foreground: oklch(0.88 0.010 40);
 
-  /* Muted cool tones */
-  --muted: oklch(0.20 0.012 250);
-  --muted-foreground: oklch(0.62 0.01 250);
+  /* Soft muted tones */
+  --muted: oklch(0.23 0.010 250);
+  --muted-foreground: oklch(0.65 0.012 250);
 
-  /* Subtle violet accent for modern touch */
-  --accent: oklch(0.60 0.20 285);
-  --accent-foreground: oklch(0.99 0.005 250);
+  /* Gentle violet accent for sophistication */
+  --accent: oklch(0.66 0.12 285);
+  --accent-foreground: oklch(0.98 0.005 250);
 
-  /* Professional red for destructive actions */
-  --destructive: oklch(0.55 0.22 25);
+  /* Soft red for destructive actions */
+  --destructive: oklch(0.58 0.18 25);
 
-  /* Subtle cool borders */
-  --border: oklch(0.24 0.015 250);
-  --input: oklch(0.22 0.018 250);
+  /* Gentle borders */
+  --border: oklch(0.28 0.012 250);
+  --input: oklch(0.25 0.012 250);
 
-  /* Clean focus ring */
-  --ring: oklch(0.55 0.22 265);
+  /* Soft focus ring */
+  --ring: oklch(0.62 0.14 265);
 
-  /* Professional green for success */
-  --success: oklch(0.58 0.18 160);
-  --success-foreground: oklch(0.99 0.005 250);
+  /* Gentle green for success */
+  --success: oklch(0.62 0.14 160);
+  --success-foreground: oklch(0.98 0.005 250);
 
-  /* Amber for warnings */
-  --warning: oklch(0.70 0.15 65);
-  --warning-foreground: oklch(0.15 0.012 250);
+  /* Soft amber for warnings */
+  --warning: oklch(0.72 0.12 65);
+  --warning-foreground: oklch(0.18 0.010 250);
 }
 
 @layer base {
@@ -100,11 +100,11 @@
   }
   body {
     @apply bg-background text-foreground font-sans antialiased;
-    /* Professional cool background with subtle gradients */
+    /* Soft, comfortable background with subtle gradients */
     background-color: var(--background);
     background-image:
-      radial-gradient(at 0% 0%, oklch(0.18 0.08 265 / 0.20) 0px, transparent 50%),
-      radial-gradient(at 100% 100%, oklch(0.16 0.06 285 / 0.12) 0px, transparent 50%);
+      radial-gradient(at 0% 0%, oklch(0.20 0.04 265 / 0.12) 0px, transparent 50%),
+      radial-gradient(at 100% 100%, oklch(0.19 0.03 285 / 0.08) 0px, transparent 50%);
   }
 
   /* Smooth scrolling for better UX */
@@ -158,23 +158,23 @@
     @apply p-6 pt-0;
   }
 
-  /* Modern Primary Button - Stunning with glow effect */
+  /* Subtle Primary Button - Comfortable with soft shadows */
   .btn-primary {
-    @apply px-6 py-2.5 bg-primary text-primary-foreground rounded-lg font-medium shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/40 transition-all duration-300 hover:scale-[1.02] active:scale-95 relative overflow-hidden;
+    @apply px-6 py-2.5 bg-primary text-primary-foreground rounded-lg font-medium shadow-md shadow-primary/10 hover:shadow-lg hover:shadow-primary/15 transition-all duration-300 hover:scale-[1.01] active:scale-[0.99] relative overflow-hidden;
   }
 
   .btn-primary::before {
     content: '';
-    @apply absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent translate-x-[-200%] transition-transform duration-500;
+    @apply absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent translate-x-[-200%] transition-transform duration-500;
   }
 
   .btn-primary:hover::before {
     @apply translate-x-[200%];
   }
 
-  /* Secondary Button with border glow */
+  /* Subtle Secondary Button */
   .btn-secondary {
-    @apply px-6 py-2.5 bg-secondary text-secondary-foreground rounded-lg font-medium border border-border hover:border-primary/50 hover:bg-secondary/80 transition-all duration-200 hover:scale-[1.02] active:scale-95;
+    @apply px-6 py-2.5 bg-secondary text-secondary-foreground rounded-lg font-medium border border-border hover:border-primary/40 hover:bg-secondary/80 transition-all duration-200 hover:scale-[1.01] active:scale-[0.99];
   }
 
   /* Ghost Button */
@@ -182,13 +182,13 @@
     @apply px-6 py-2.5 text-foreground rounded-lg font-medium hover:bg-secondary/50 transition-all duration-200 hover:scale-[1.02] active:scale-95;
   }
 
-  /* Custom Input Field style with modern focus and animation */
+  /* Custom Input Field style with gentle focus */
   .input-field {
-    @apply w-full px-4 py-2.5 bg-card border-2 border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring focus:border-primary transition-all duration-300 placeholder:text-muted-foreground;
+    @apply w-full px-4 py-2.5 bg-card border-2 border-border rounded-lg focus:outline-none focus:ring-1 focus:ring-ring/60 focus:border-primary/60 transition-all duration-300 placeholder:text-muted-foreground;
   }
 
   .input-field:focus {
-    @apply shadow-lg shadow-primary/10 translate-y-[-1px];
+    @apply shadow-md shadow-primary/5;
   }
 
   /* Custom link style */
@@ -201,14 +201,14 @@
     @apply backdrop-blur-xl bg-card/80 border border-border/50 rounded-2xl shadow-2xl;
   }
 
-  /* Modern card with depth and glow */
+  /* Subtle card with gentle elevation */
   .modern-card {
-    @apply bg-card border border-border/50 rounded-2xl shadow-lg hover:shadow-xl hover:shadow-primary/5 transition-all duration-300 relative overflow-hidden backdrop-blur-sm;
+    @apply bg-card border border-border/50 rounded-2xl shadow-md hover:shadow-lg hover:shadow-primary/3 transition-all duration-300 relative overflow-hidden backdrop-blur-sm;
   }
 
   .modern-card::before {
     content: '';
-    @apply absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent;
+    @apply absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/10 to-transparent;
   }
 
   /* Glossy card variant */
