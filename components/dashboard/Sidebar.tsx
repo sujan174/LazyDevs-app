@@ -1,6 +1,6 @@
 "use client";
 
-import { LogOut, Settings, LayoutDashboard, User, DoorOpen, Upload } from "lucide-react";
+import { LogOut, Settings, LayoutDashboard, User, DoorOpen, Upload, Calendar } from "lucide-react";
 import Link from "next/link";
 import { signOut } from "firebase/auth";
 import { auth } from "@/lib/firebase";
@@ -32,6 +32,7 @@ export function Sidebar({ isCollapsed, isMobileOpen = false, onMobileClose }: Si
 
   const navItems = [
     { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
+    { name: "Meetings", href: "/dashboard/meetings", icon: Calendar },
     { name: "Team", href: "#", icon: User },
     { name: "Settings", href: "/dashboard/settings", icon: Settings },
   ];

@@ -44,54 +44,54 @@
 }
 
 :root {
-  /* Aerius Dark Theme - Modern, elegant, and stunning */
+  /* Aerius "Sunset Intelligence" - Warm, sophisticated, and inviting */
   --radius: 0.75rem;
 
-  /* Deep dark background with subtle blue tint for depth */
-  --background: oklch(0.08 0.015 250);
-  --foreground: oklch(0.95 0.005 250);
+  /* Warm dark background - sophisticated yet inviting */
+  --background: oklch(0.11 0.012 30);
+  --foreground: oklch(0.96 0.005 40);
 
-  /* Cards with subtle elevation */
-  --card: oklch(0.12 0.015 250);
-  --card-foreground: oklch(0.95 0.005 250);
+  /* Cards with warm elevation */
+  --card: oklch(0.15 0.015 35);
+  --card-foreground: oklch(0.96 0.005 40);
 
   /* Popovers slightly elevated */
-  --popover: oklch(0.14 0.015 250);
-  --popover-foreground: oklch(0.95 0.005 250);
+  --popover: oklch(0.17 0.015 35);
+  --popover-foreground: oklch(0.96 0.005 40);
 
-  /* Vibrant cyan-blue primary inspired by modern tech brands */
-  --primary: oklch(0.65 0.22 230);
-  --primary-foreground: oklch(0.98 0.005 250);
+  /* Warm amber-coral primary - the star of the show */
+  --primary: oklch(0.68 0.19 42);
+  --primary-foreground: oklch(0.98 0.005 40);
 
-  /* Subtle secondary for less emphasis */
-  --secondary: oklch(0.18 0.015 250);
-  --secondary-foreground: oklch(0.9 0.005 250);
+  /* Warm secondary for subtle emphasis */
+  --secondary: oklch(0.20 0.015 35);
+  --secondary-foreground: oklch(0.92 0.005 40);
 
-  /* Muted backgrounds and text */
-  --muted: oklch(0.16 0.015 250);
-  --muted-foreground: oklch(0.55 0.01 250);
+  /* Muted warm tones */
+  --muted: oklch(0.18 0.012 35);
+  --muted-foreground: oklch(0.58 0.01 40);
 
-  /* Accent with purple tint for highlights */
-  --accent: oklch(0.20 0.02 280);
-  --accent-foreground: oklch(0.95 0.005 250);
+  /* Teal accent for cool contrast - unique twist */
+  --accent: oklch(0.62 0.14 190);
+  --accent-foreground: oklch(0.98 0.005 40);
 
-  /* Vibrant red for destructive actions */
-  --destructive: oklch(0.58 0.24 25);
+  /* Warm red for destructive actions */
+  --destructive: oklch(0.58 0.22 28);
 
-  /* Subtle borders that don't overpower */
-  --border: oklch(0.20 0.015 250);
-  --input: oklch(0.18 0.015 250);
+  /* Warm subtle borders */
+  --border: oklch(0.22 0.012 35);
+  --input: oklch(0.20 0.015 35);
 
-  /* Glowing ring for focus states */
-  --ring: oklch(0.65 0.22 230);
+  /* Glowing warm ring for focus */
+  --ring: oklch(0.68 0.19 42);
 
-  /* Success state - vibrant green */
-  --success: oklch(0.62 0.20 150);
-  --success-foreground: oklch(0.98 0.005 250);
+  /* Jade green for success */
+  --success: oklch(0.64 0.17 165);
+  --success-foreground: oklch(0.98 0.005 40);
 
-  /* Warning state - amber */
-  --warning: oklch(0.70 0.18 75);
-  --warning-foreground: oklch(0.15 0.015 250);
+  /* Golden amber for warnings */
+  --warning: oklch(0.74 0.17 68);
+  --warning-foreground: oklch(0.15 0.012 35);
 }
 
 @layer base {
@@ -100,11 +100,11 @@
   }
   body {
     @apply bg-background text-foreground font-sans antialiased;
-    /* Deep dark background with subtle texture */
+    /* Warm dark background with sunset-inspired gradients */
     background-color: var(--background);
     background-image:
-      radial-gradient(at 0% 0%, oklch(0.15 0.05 230 / 0.3) 0px, transparent 50%),
-      radial-gradient(at 100% 100%, oklch(0.15 0.05 280 / 0.2) 0px, transparent 50%);
+      radial-gradient(at 0% 0%, oklch(0.18 0.08 45 / 0.25) 0px, transparent 50%),
+      radial-gradient(at 100% 100%, oklch(0.16 0.06 190 / 0.15) 0px, transparent 50%);
   }
 
   /* Smooth scrolling for better UX */
