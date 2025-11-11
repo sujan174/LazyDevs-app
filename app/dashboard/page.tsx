@@ -1,65 +1,13 @@
 "use client";
 import { ChatInput } from "../../components/dashboard/ChatInput";
-import { MessageSquare, Sparkles, Calendar, TrendingUp, Clock } from "lucide-react";
-import Link from "next/link";
+import { MessageSquare, Sparkles } from "lucide-react";
 
 export default function DashboardPage() {
   return (
-    <div className="h-full p-6 sm:p-8 overflow-y-auto page-transition">
+    <div className="h-full p-6 sm:p-8 page-transition">
       <div className="max-w-7xl mx-auto h-full flex flex-col">
-        {/* Welcome Header */}
-        <div className="mb-8 slide-in-down">
-          <h1 className="text-3xl font-bold text-foreground mb-2">
-            Welcome to Aerius
-          </h1>
-          <p className="text-muted-foreground">
-            Your AI-powered meeting intelligence platform
-          </p>
-        </div>
-
-        {/* Quick Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <Link href="/dashboard/meetings" className="group">
-            <div className="modern-card p-6 cursor-pointer slide-in-up stagger-1">
-              <div className="flex items-center gap-4">
-                <div className="p-3 bg-primary/10 rounded-xl ring-1 ring-primary/20 group-hover:bg-primary/20 transition-colors">
-                  <Calendar className="w-6 h-6 text-primary" />
-                </div>
-                <div>
-                  <p className="text-2xl font-bold text-foreground">0</p>
-                  <p className="text-sm text-muted-foreground">Total Meetings</p>
-                </div>
-              </div>
-            </div>
-          </Link>
-
-          <div className="modern-card p-6 slide-in-up stagger-2">
-            <div className="flex items-center gap-4">
-              <div className="p-3 bg-accent/10 rounded-xl ring-1 ring-accent/20">
-                <Clock className="w-6 h-6 text-accent" />
-              </div>
-              <div>
-                <p className="text-2xl font-bold text-foreground">0h</p>
-                <p className="text-sm text-muted-foreground">Time Saved</p>
-              </div>
-            </div>
-          </div>
-
-          <div className="modern-card p-6 slide-in-up stagger-3">
-            <div className="flex items-center gap-4">
-              <div className="p-3 bg-success/10 rounded-xl ring-1 ring-success/20">
-                <TrendingUp className="w-6 h-6 text-success" />
-              </div>
-              <div>
-                <p className="text-2xl font-bold text-foreground">0</p>
-                <p className="text-sm text-muted-foreground">Action Items</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Main AI Chat Interface */}
-        <div className="flex-1 flex flex-col modern-card overflow-hidden slide-in-up stagger-4 min-h-0">
+        {/* Main AI Chat Interface - Full Height */}
+        <div className="flex-1 flex flex-col modern-card overflow-hidden slide-in-up min-h-0">
           <header className="p-6 border-b border-border bg-gradient-accent">
             <div className="flex items-center gap-3">
               <div className="p-3 bg-primary/10 rounded-xl ring-1 ring-primary/20">
