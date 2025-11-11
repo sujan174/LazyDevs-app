@@ -12,8 +12,8 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "LazyDevs MVP",
-  description: "Your intelligent meeting assistant.",
+  title: "Aerius - AI Meeting Intelligence",
+  description: "Transform your meetings with AI-powered insights, transcriptions, and action tracking.",
 };
 
 export default function RootLayout({

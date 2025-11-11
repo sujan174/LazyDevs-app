@@ -44,46 +44,54 @@
 }
 
 :root {
-  --radius: 0.75rem; /* Slightly larger radius for a modern look */
-  --background: oklch(0.98 0.01 240); /* Lighter, cooler background */
-  --foreground: oklch(0.15 0.01 240);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.15 0.01 240);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.15 0.01 240);
-  --primary: oklch(0.45 0.25 260); /* A nice, strong purple */
-  --primary-foreground: oklch(0.98 0.01 240);
-  --secondary: oklch(0.94 0.02 250);
-  --secondary-foreground: oklch(0.25 0.01 250);
-  --muted: oklch(0.94 0.02 250);
-  --muted-foreground: oklch(0.5 0.01 250);
-  --accent: oklch(0.92 0.03 260);
-  --accent-foreground: oklch(0.1 0.01 260);
-  --destructive: oklch(0.55 0.25 25);
-  --border: oklch(0.9 0.02 250);
-  --input: oklch(0.9 0.02 250);
-  --ring: oklch(0.45 0.25 260 / 0.8);
-}
+  /* Aerius Dark Theme - Modern, elegant, and stunning */
+  --radius: 0.75rem;
 
-.dark {
-  --background: oklch(0.1 0.02 240); /* Dark blue-ish grey */
-  --foreground: oklch(0.95 0.01 240);
-  --card: oklch(0.15 0.02 240);
-  --card-foreground: oklch(0.95 0.01 240);
-  --popover: oklch(0.15 0.02 240);
-  --popover-foreground: oklch(0.95 0.01 240);
-  --primary: oklch(0.65 0.2 260); /* Brighter purple for dark mode */
-  --primary-foreground: oklch(0.1 0.02 240);
-  --secondary: oklch(0.2 0.02 240);
-  --secondary-foreground: oklch(0.95 0.01 240);
-  --muted: oklch(0.2 0.02 240);
-  --muted-foreground: oklch(0.6 0.01 240);
-  --accent: oklch(0.25 0.02 250);
-  --accent-foreground: oklch(0.95 0.01 240);
-  --destructive: oklch(0.6 0.2 25);
-  --border: oklch(0.25 0.02 250);
-  --input: oklch(0.25 0.02 250);
-  --ring: oklch(0.65 0.2 260);
+  /* Deep dark background with subtle blue tint for depth */
+  --background: oklch(0.08 0.015 250);
+  --foreground: oklch(0.95 0.005 250);
+
+  /* Cards with subtle elevation */
+  --card: oklch(0.12 0.015 250);
+  --card-foreground: oklch(0.95 0.005 250);
+
+  /* Popovers slightly elevated */
+  --popover: oklch(0.14 0.015 250);
+  --popover-foreground: oklch(0.95 0.005 250);
+
+  /* Vibrant cyan-blue primary inspired by modern tech brands */
+  --primary: oklch(0.65 0.22 230);
+  --primary-foreground: oklch(0.98 0.005 250);
+
+  /* Subtle secondary for less emphasis */
+  --secondary: oklch(0.18 0.015 250);
+  --secondary-foreground: oklch(0.9 0.005 250);
+
+  /* Muted backgrounds and text */
+  --muted: oklch(0.16 0.015 250);
+  --muted-foreground: oklch(0.55 0.01 250);
+
+  /* Accent with purple tint for highlights */
+  --accent: oklch(0.20 0.02 280);
+  --accent-foreground: oklch(0.95 0.005 250);
+
+  /* Vibrant red for destructive actions */
+  --destructive: oklch(0.58 0.24 25);
+
+  /* Subtle borders that don't overpower */
+  --border: oklch(0.20 0.015 250);
+  --input: oklch(0.18 0.015 250);
+
+  /* Glowing ring for focus states */
+  --ring: oklch(0.65 0.22 230);
+
+  /* Success state - vibrant green */
+  --success: oklch(0.62 0.20 150);
+  --success-foreground: oklch(0.98 0.005 250);
+
+  /* Warning state - amber */
+  --warning: oklch(0.70 0.18 75);
+  --warning-foreground: oklch(0.15 0.015 250);
 }
 
 @layer base {
@@ -91,14 +99,35 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground font-sans;
-    /* Simplified gradient for better performance */
+    @apply bg-background text-foreground font-sans antialiased;
+    /* Deep dark background with subtle texture */
     background-color: var(--background);
+    background-image:
+      radial-gradient(at 0% 0%, oklch(0.15 0.05 230 / 0.3) 0px, transparent 50%),
+      radial-gradient(at 100% 100%, oklch(0.15 0.05 280 / 0.2) 0px, transparent 50%);
   }
 
   /* Smooth scrolling for better UX */
   html {
     scroll-behavior: smooth;
+  }
+
+  /* Custom scrollbar for dark theme */
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-background;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-muted rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-muted-foreground/50;
   }
 }
 
@@ -129,14 +158,23 @@
     @apply p-6 pt-0;
   }
 
-  /* Modern Primary Button - Optimized for performance */
+  /* Modern Primary Button - Stunning with glow effect */
   .btn-primary {
-    @apply px-6 py-2.5 bg-primary text-primary-foreground rounded-lg font-medium shadow-lg shadow-primary/30 hover:shadow-xl hover:shadow-primary/40 transition-all duration-300 hover:scale-[1.02] active:scale-95;
+    @apply px-6 py-2.5 bg-primary text-primary-foreground rounded-lg font-medium shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/40 transition-all duration-300 hover:scale-[1.02] active:scale-95 relative overflow-hidden;
   }
 
-  /* Secondary Button */
+  .btn-primary::before {
+    content: '';
+    @apply absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent translate-x-[-200%] transition-transform duration-500;
+  }
+
+  .btn-primary:hover::before {
+    @apply translate-x-[200%];
+  }
+
+  /* Secondary Button with border glow */
   .btn-secondary {
-    @apply px-6 py-2.5 bg-secondary text-secondary-foreground rounded-lg font-medium border border-border hover:bg-secondary/80 transition-all duration-200 hover:scale-[1.02] active:scale-95;
+    @apply px-6 py-2.5 bg-secondary text-secondary-foreground rounded-lg font-medium border border-border hover:border-primary/50 hover:bg-secondary/80 transition-all duration-200 hover:scale-[1.02] active:scale-95;
   }
 
   /* Ghost Button */
@@ -159,14 +197,24 @@
     @apply backdrop-blur-xl bg-card/80 border border-border/50 rounded-2xl shadow-2xl;
   }
 
-  /* Modern card with depth */
+  /* Modern card with depth and glow */
   .modern-card {
-    @apply bg-card border border-border rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 relative overflow-hidden;
+    @apply bg-card border border-border/50 rounded-2xl shadow-lg hover:shadow-xl hover:shadow-primary/5 transition-all duration-300 relative overflow-hidden backdrop-blur-sm;
   }
 
   .modern-card::before {
     content: '';
-    @apply absolute top-0 left-0 right-0 h-px bg-primary/10;
+    @apply absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent;
+  }
+
+  /* Glossy card variant */
+  .glossy-card {
+    @apply bg-gradient-to-br from-card/90 to-card/50 border border-border/30 rounded-2xl shadow-2xl backdrop-blur-xl relative overflow-hidden;
+  }
+
+  .glossy-card::before {
+    content: '';
+    @apply absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/5 pointer-events-none;
   }
 
   /* Subtle animations inspired by modern design */

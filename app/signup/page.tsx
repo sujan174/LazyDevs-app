@@ -49,9 +49,20 @@ export default function SignupPage() {
     <main className="auth-container">
       <Card className="auth-card">
         <CardHeader className="auth-card-header">
+          {/* Aerius Logo */}
+          <div className="mb-6 flex justify-center">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary to-primary/60 flex items-center justify-center shadow-lg shadow-primary/30">
+                <span className="text-white font-bold text-2xl">A</span>
+              </div>
+              <span className="text-3xl font-bold bg-gradient-to-r from-primary via-primary/90 to-accent bg-clip-text text-transparent">
+                Aerius
+              </span>
+            </div>
+          </div>
           <CardTitle className="auth-card-title">Create an Account</CardTitle>
           <CardDescription className="auth-card-description">
-            Enter your information to get started.
+            Join Aerius to transform your meeting workflow.
           </CardDescription>
         </CardHeader>
         <CardContent className="auth-card-content">
@@ -79,9 +90,9 @@ export default function SignupPage() {
                 className="input-field"
               />
             </div>
-            {error && <p className="text-red-500 text-sm">{error}</p>}
-            <Button type="submit" className="w-full">
-              Create an account
+            {error && <p className="text-destructive text-sm">{error}</p>}
+            <Button type="submit" className="w-full btn-primary">
+              Create Account
             </Button>
           </form>
           <div className="mt-4 text-center text-sm text-muted-foreground">
