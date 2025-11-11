@@ -268,31 +268,31 @@ const Integrations = ({ teamId, teamData, onDisconnectIntegration }: {
             <h2 className="text-2xl font-semibold text-foreground mb-1">Integrations</h2>
             <p className="text-muted-foreground mb-6">Connect your favorite apps to streamline your workflow.</p>
             <ul className="space-y-4">
-                {integrations.map((integration) => {
+                {integrations.map((integration, index) => {
                     const Icon = integration.icon;
                     const connected = isConnected(integration.id);
                     const connecting = isConnecting === integration.id;
 
                     return (
-                        <li key={integration.id} className="flex items-center justify-between bg-secondary/30 p-4 rounded-lg border border-border/50 hover:border-primary/30 transition-all">
-                            <div className="flex items-center gap-4">
-                                <div className="bg-card p-2 border border-border rounded-lg">
+                        <li key={integration.id} className={`flex flex-col sm:flex-row items-start sm:items-center justify-between bg-secondary/30 p-4 rounded-lg border border-border/50 hover:border-primary/30 transition-all gap-4 slide-in-up stagger-${index + 1}`}>
+                            <div className="flex items-center gap-4 w-full sm:w-auto">
+                                <div className="bg-card p-2 border border-border rounded-lg flex-shrink-0">
                                     <Icon />
                                 </div>
-                                <div>
+                                <div className="flex-1">
                                     <p className="font-semibold text-foreground">{integration.name}</p>
                                     <p className="text-sm text-muted-foreground">{integration.description}</p>
                                 </div>
                             </div>
                             {connected ? (
-                                <div className="flex items-center gap-4">
+                                <div className="flex flex-wrap items-center gap-3 w-full sm:w-auto sm:flex-nowrap">
                                     <span className="flex items-center gap-2 text-sm text-success font-medium">
                                         <CheckCircle className="w-4 h-4"/>
                                         Connected
                                     </span>
                                     <button
                                         onClick={() => onDisconnectIntegration(integration.id)}
-                                        className="text-sm text-destructive hover:text-destructive/80 font-medium transition-colors"
+                                        className="text-sm text-destructive hover:text-destructive/80 font-medium transition-colors min-h-[44px] px-3"
                                     >
                                         Disconnect
                                     </button>
@@ -301,7 +301,7 @@ const Integrations = ({ teamId, teamData, onDisconnectIntegration }: {
                                 <button
                                     onClick={() => handleConnectClick(integration.id)}
                                     disabled={connecting}
-                                    className="flex items-center gap-2 btn-secondary text-sm disabled:opacity-50"
+                                    className="flex items-center justify-center gap-2 btn-secondary text-sm disabled:opacity-50 w-full sm:w-auto min-h-[44px]"
                                 >
                                     {connecting ? <Loader2 className="w-4 h-4 animate-spin" /> : <LinkIcon className="w-4 h-4" />}
                                     <span>{connecting ? "Redirecting..." : "Connect"}</span>

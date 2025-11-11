@@ -182,9 +182,13 @@
     @apply px-6 py-2.5 text-foreground rounded-lg font-medium hover:bg-secondary/50 transition-all duration-200 hover:scale-[1.02] active:scale-95;
   }
 
-  /* Custom Input Field style with modern focus */
+  /* Custom Input Field style with modern focus and animation */
   .input-field {
-    @apply w-full px-4 py-2.5 bg-card border-2 border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring focus:border-primary transition-all duration-200 placeholder:text-muted-foreground;
+    @apply w-full px-4 py-2.5 bg-card border-2 border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring focus:border-primary transition-all duration-300 placeholder:text-muted-foreground;
+  }
+
+  .input-field:focus {
+    @apply shadow-lg shadow-primary/10 translate-y-[-1px];
   }
 
   /* Custom link style */
@@ -297,6 +301,66 @@
   .pulse-glow {
     animation: pulseOpacity 2s ease-in-out infinite;
   }
+
+  /* Staggered animation delays for lists */
+  .stagger-1 { animation-delay: 0.05s; }
+  .stagger-2 { animation-delay: 0.1s; }
+  .stagger-3 { animation-delay: 0.15s; }
+  .stagger-4 { animation-delay: 0.2s; }
+  .stagger-5 { animation-delay: 0.25s; }
+  .stagger-6 { animation-delay: 0.3s; }
+
+  /* Shimmer loading effect */
+  .shimmer {
+    @apply relative overflow-hidden;
+  }
+
+  .shimmer::after {
+    content: '';
+    @apply absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent;
+    animation: shimmer 2s infinite;
+  }
+
+  /* Page transition wrapper */
+  .page-transition {
+    animation: pageTransition 0.4s ease-out;
+  }
+
+  /* Bounce in animation for modals */
+  .bounce-in {
+    animation: bounceIn 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  }
+
+  /* Slide in from left */
+  .slide-in-left {
+    animation: slideInLeft 0.4s ease-out;
+  }
+
+  /* Smooth reveal from bottom */
+  .reveal-bottom {
+    animation: revealBottom 0.6s ease-out;
+  }
+
+  /* Responsive utilities */
+  @media (max-width: 768px) {
+    .mobile-full {
+      @apply w-full;
+    }
+
+    .mobile-p-4 {
+      @apply p-4;
+    }
+
+    .mobile-text-sm {
+      @apply text-sm;
+    }
+  }
+
+  @media (min-width: 769px) and (max-width: 1024px) {
+    .tablet-grid-cols-2 {
+      @apply grid-cols-2;
+    }
+  }
 }
 
 @keyframes fadeIn {
@@ -381,13 +445,72 @@
   }
 }
 
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes pageTransition {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes bounceIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+  70% {
+    transform: scale(0.9);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes revealBottom {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 /* Performance optimization: Use GPU acceleration for animations */
-.fade-in, .slide-in-up, .slide-in-right, .slide-in-down, .scale-in, .fade-in-scale, .card-hover, .btn-smooth {
+.fade-in, .slide-in-up, .slide-in-right, .slide-in-down, .slide-in-left, .scale-in, .fade-in-scale, .card-hover, .btn-smooth, .bounce-in, .reveal-bottom, .page-transition {
   will-change: transform, opacity;
 }
 
 /* Remove will-change after animation completes to free GPU resources */
-.fade-in, .slide-in-up, .slide-in-right, .slide-in-down, .scale-in, .fade-in-scale {
+.fade-in, .slide-in-up, .slide-in-right, .slide-in-down, .slide-in-left, .scale-in, .fade-in-scale, .bounce-in, .reveal-bottom, .page-transition {
   animation-fill-mode: forwards;
 }
 
