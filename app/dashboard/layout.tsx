@@ -43,6 +43,7 @@ export default function DashboardLayout({
   children: ReactNode;
 }) {
   const [isSidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
   const { user, userData, loading } = useAuth();
   const router = useRouter();
 
@@ -74,20 +75,44 @@ export default function DashboardLayout({
   return (
     <ErrorBoundary>
       <div className="flex h-screen bg-background fade-in">
-        <Sidebar isCollapsed={isSidebarCollapsed} />
+        {/* Mobile overlay */}
+        {isMobileSidebarOpen && (
+          <div
+            className="fixed inset-0 bg-background/80 backdrop-blur-sm z-20 md:hidden fade-in"
+            onClick={() => setIsMobileSidebarOpen(false)}
+          />
+        )}
+
+        {/* Sidebar - responsive */}
+        <Sidebar
+          isCollapsed={isSidebarCollapsed}
+          isMobileOpen={isMobileSidebarOpen}
+          onMobileClose={() => setIsMobileSidebarOpen(false)}
+        />
+
+        {/* Main content area with responsive margins */}
         <div
-          className={`flex-1 flex flex-col transition-all duration-300 ease-in-out ${
-            isSidebarCollapsed ? "ml-20" : "ml-64"
-          }`}
+          className={`flex-1 flex flex-col transition-all duration-300 ease-in-out
+            ${isSidebarCollapsed ? "md:ml-20" : "md:ml-64"}
+            ml-0`}
         >
           <Header
             user={user!}
-            toggleSidebar={() => setSidebarCollapsed(!isSidebarCollapsed)}
+            toggleSidebar={() => {
+              // On mobile, toggle mobile sidebar
+              // On desktop, toggle collapse
+              if (window.innerWidth < 768) {
+                setIsMobileSidebarOpen(!isMobileSidebarOpen);
+              } else {
+                setSidebarCollapsed(!isSidebarCollapsed);
+              }
+            }}
           />
-          <main className="flex-1 overflow-y-auto">
+          <main className="flex-1 overflow-y-auto page-transition">
             <ErrorBoundary>{children}</ErrorBoundary>
           </main>
         </div>
+
         {/* Lazy-loaded modal component */}
         <DashboardModalController />
       </div>
