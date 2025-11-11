@@ -138,23 +138,23 @@ export function UploadModal({ user }: UploadMeetingModalProps) {
 
   return (
     <div
-     className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm"
+     className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-md"
      onClick={handleClose}
     >
-      <div 
-        className="relative bg-white rounded-xl shadow-xl w-full max-w-lg mx-4"
+      <div
+        className="relative modern-card w-full max-w-lg mx-4 bounce-in"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex items-center justify-between p-6 border-b border-gray-200">
-          <h2 className="text-xl font-semibold text-gray-900">Upload Meeting Recording</h2>
-          <button onClick={handleClose} className="text-gray-400 hover:text-gray-600 transition-colors">
+        <div className="flex items-center justify-between p-6 border-b border-border">
+          <h2 className="text-xl font-semibold text-foreground">Upload Meeting Recording</h2>
+          <button onClick={handleClose} className="text-muted-foreground hover:text-foreground transition-colors">
             <X className="w-5 h-5" />
           </button>
         </div>
 
         <div className="p-6 space-y-4">
            <div>
-            <label htmlFor="meeting-title" className="block text-sm font-medium text-gray-700 mb-1">
+            <label htmlFor="meeting-title" className="block text-sm font-medium text-foreground mb-2">
               Meeting Title
             </label>
             <input
@@ -163,46 +163,46 @@ export function UploadModal({ user }: UploadMeetingModalProps) {
               value={meetingTitle}
               onChange={(e) => setMeetingTitle(e.target.value)}
               placeholder="e.g., Q4 Project Kickoff"
-              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+              className="input-field"
               disabled={isProcessing}
             />
           </div>
 
           <div
-            className={`border-2 border-dashed rounded-lg p-8 text-center transition-colors ${
-              dragActive ? 'border-blue-500 bg-blue-50' : 'border-gray-300'
+            className={`border-2 border-dashed rounded-xl p-8 text-center transition-all duration-300 ${
+              dragActive ? 'border-primary bg-primary/5 scale-[1.02]' : 'border-border bg-muted/30'
             }`}
             onDragEnter={handleDrag} onDragLeave={handleDrag} onDragOver={handleDrag} onDrop={handleDrop}
           >
             {isProcessing ? (
               <div className="flex flex-col items-center">
-                <Loader2 className="w-12 h-12 text-blue-500 animate-spin mb-4" />
-                <p className="text-sm text-gray-600 font-medium">{processingStatus}</p>
+                <Loader2 className="w-12 h-12 text-primary animate-spin mb-4" />
+                <p className="text-sm text-foreground font-medium">{processingStatus}</p>
               </div>
             ) : selectedFile ? (
               <div className="flex flex-col items-center">
-                <FileAudio className="w-12 h-12 text-green-500 mx-auto mb-3" />
-                <p className="text-sm font-semibold text-gray-800">{selectedFile.name}</p>
-                <p className="text-xs text-gray-500">
+                <FileAudio className="w-12 h-12 text-success mx-auto mb-3" />
+                <p className="text-sm font-semibold text-foreground">{selectedFile.name}</p>
+                <p className="text-xs text-muted-foreground">
                   ({(selectedFile.size / 1024 / 1024).toFixed(2)} MB)
                 </p>
-                <button onClick={() => setSelectedFile(null)} className="mt-3 text-xs text-red-600 hover:underline">
+                <button onClick={() => setSelectedFile(null)} className="mt-3 text-xs text-destructive hover:underline">
                   Remove file
                 </button>
               </div>
             ) : (
               <>
-                <Upload className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-                <p className="text-sm text-gray-600 mb-2">
+                <Upload className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
+                <p className="text-sm text-foreground mb-2">
                   Drag and drop an audio file here, or
                 </p>
                 <button
                   onClick={() => fileInputRef.current?.click()}
-                  className="text-blue-600 hover:text-blue-700 font-medium text-sm"
+                  className="text-primary hover:text-primary/80 font-medium text-sm transition-colors"
                 >
                   browse to upload
                 </button>
-                <p className="text-xs text-gray-500 mt-2">
+                <p className="text-xs text-muted-foreground mt-2">
                   Supports MP3, WAV, M4A, etc.
                 </p>
               </>
@@ -217,17 +217,17 @@ export function UploadModal({ user }: UploadMeetingModalProps) {
 
         {error && (
             <div className="px-6 pb-2">
-                <div className="bg-red-50 text-red-700 p-3 rounded-md flex items-center text-sm">
+                <div className="bg-destructive/10 text-destructive p-3 rounded-lg flex items-center text-sm border border-destructive/20">
                     <Info className="w-5 h-5 mr-2 flex-shrink-0" />
                     <span>{error}</span>
                 </div>
             </div>
         )}
 
-        <div className="flex justify-end gap-3 p-6 border-t border-gray-200">
+        <div className="flex justify-end gap-3 p-6 border-t border-border">
           <button
             onClick={handleClose}
-            className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-50 border border-gray-300 rounded-md hover:bg-gray-100 transition-colors"
+            className="btn-secondary"
             disabled={isProcessing}
           >
             Cancel
@@ -235,7 +235,7 @@ export function UploadModal({ user }: UploadMeetingModalProps) {
           <button
             onClick={handleUpload}
             disabled={isProcessing || !selectedFile || !meetingTitle.trim()}
-            className="px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-md transition-colors disabled:opacity-50 disabled:cursor-not-allowed inline-flex items-center"
+            className="btn-primary disabled:opacity-50 disabled:cursor-not-allowed inline-flex items-center"
           >
             {isProcessing ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Upload className="w-4 h-4 mr-2" />}
             {isProcessing ? 'Processing...' : 'Upload & Transcribe'}
