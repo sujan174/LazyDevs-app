@@ -43,12 +43,18 @@ export default function DashboardLayout({
   children: ReactNode;
 }) {
   const [isSidebarCollapsed, setSidebarCollapsed] = useState(false);
-  const { user, loading } = useAuth();
+  const { user, userData, loading } = useAuth();
   const router = useRouter();
 
   // Redirect to login if not authenticated
   if (!loading && !user) {
     router.push("/login");
+    return null;
+  }
+
+  // Redirect to setup if user doesn't have a team
+  if (!loading && user && userData && !userData.teamId) {
+    router.push("/setup");
     return null;
   }
 

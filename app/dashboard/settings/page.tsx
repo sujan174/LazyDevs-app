@@ -249,7 +249,9 @@ const Integrations = ({ teamId, teamData, onDisconnectIntegration }: {
 
     const handleConnectClick = (providerId: string) => {
         if (!teamId) {
-            alert("Team information not available. Cannot connect.");
+            alert("Team information not available. Please complete the setup process first.");
+            // Redirect to setup page to complete team setup
+            window.location.href = "/setup";
             return;
         }
         setIsConnecting(providerId);
