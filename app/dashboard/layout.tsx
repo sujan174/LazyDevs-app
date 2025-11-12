@@ -64,7 +64,8 @@ export default function DashboardLayout({
     }
   }, [user, userData, loading, router]);
 
-  if (loading) {
+  // Show loading state during auth changes or when user/userData is missing
+  if (loading || !user) {
     return (
       <div className="flex h-screen w-full items-center justify-center bg-background">
         <div className="flex flex-col items-center space-y-4 fade-in">
