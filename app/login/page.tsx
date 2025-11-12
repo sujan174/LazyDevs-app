@@ -45,28 +45,28 @@ export default function LoginPage() {
 
   return (
     <main className="auth-container">
-      <Card className="auth-card">
+      <Card className="auth-card fade-in-scale">
         <CardHeader className="auth-card-header">
           {/* Aerius Logo */}
-          <div className="mb-6 flex justify-center">
+          <div className="mb-8 flex justify-center slide-in-down">
             <div className="flex items-center gap-3">
-              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary to-primary/60 flex items-center justify-center shadow-lg shadow-primary/30">
+              <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-primary to-primary/60 flex items-center justify-center shadow-xl shadow-primary/30 hover:shadow-2xl hover:shadow-primary/40 transition-all duration-300 hover:scale-105">
                 <span className="text-white font-bold text-2xl">A</span>
               </div>
-              <span className="text-3xl font-bold bg-gradient-to-r from-primary via-primary/90 to-accent bg-clip-text text-transparent">
+              <span className="text-4xl font-bold bg-gradient-to-r from-primary via-primary/90 to-accent bg-clip-text text-transparent">
                 Aerius
               </span>
             </div>
           </div>
-          <CardTitle className="auth-card-title">Welcome Back</CardTitle>
-          <CardDescription className="auth-card-description">
+          <CardTitle className="auth-card-title slide-in-up" style={{ animationDelay: '0.1s', animationFillMode: 'backwards' }}>Welcome Back</CardTitle>
+          <CardDescription className="auth-card-description slide-in-up" style={{ animationDelay: '0.2s', animationFillMode: 'backwards' }}>
             Sign in to your account to continue.
           </CardDescription>
         </CardHeader>
         <CardContent className="auth-card-content">
-          <form onSubmit={handleSignIn} className="grid gap-4">
-            <div className="grid gap-2">
-              <Label htmlFor="email">Email</Label>
+          <form onSubmit={handleSignIn} className="grid gap-5">
+            <div className="grid gap-2 slide-in-up" style={{ animationDelay: '0.3s', animationFillMode: 'backwards' }}>
+              <Label htmlFor="email" className="text-sm font-semibold text-foreground">Email</Label>
               <Input
                 id="email"
                 type="email"
@@ -74,28 +74,33 @@ export default function LoginPage() {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="input-field"
+                className="input-field h-12 text-base"
               />
             </div>
-            <div className="grid gap-2">
-              <Label htmlFor="password">Password</Label>
+            <div className="grid gap-2 slide-in-up" style={{ animationDelay: '0.4s', animationFillMode: 'backwards' }}>
+              <Label htmlFor="password" className="text-sm font-semibold text-foreground">Password</Label>
               <Input
                 id="password"
                 type="password"
+                placeholder="Enter your password"
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="input-field"
+                className="input-field h-12 text-base"
               />
             </div>
-            {error && <p className="text-destructive text-sm">{error}</p>}
-            <Button type="submit" className="w-full btn-primary">
+            {error && (
+              <div className="p-3 bg-destructive/10 border border-destructive/30 rounded-lg slide-in-up">
+                <p className="text-destructive text-sm font-medium">{error}</p>
+              </div>
+            )}
+            <Button type="submit" className="w-full btn-primary h-12 text-base font-semibold slide-in-up" style={{ animationDelay: '0.5s', animationFillMode: 'backwards' }}>
               Sign In
             </Button>
           </form>
-          <div className="mt-4 text-center text-sm text-muted-foreground">
+          <div className="mt-6 text-center text-sm text-muted-foreground slide-in-up" style={{ animationDelay: '0.6s', animationFillMode: 'backwards' }}>
             Don&apos;t have an account?{" "}
-            <Link href="/signup" className="link">
+            <Link href="/signup" className="link font-semibold hover:underline">
               Sign up
             </Link>
           </div>
