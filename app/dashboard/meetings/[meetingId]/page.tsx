@@ -28,7 +28,6 @@ import {
   getActionBadge,
 } from "@/lib/utils/speaker-colors";
 
-// --- Memoized UI Components ---
 const InfoPill = memo(
   ({ icon: Icon, text }: { icon: React.ElementType; text: string }) => (
     <div className="flex items-center gap-2">
@@ -83,7 +82,6 @@ const ActionItemComponent = memo(
         className="p-6 bg-card/50 rounded-lg border border-border hover:border-primary/50 hover:shadow-md transition-all duration-300 card-hover slide-in-up"
         style={{ animationDelay: `${index * 40}ms` }}
       >
-        {/* Action Header */}
         <div className="flex items-start justify-between gap-3 mb-4">
           <div className="flex items-center gap-3">
             <span
@@ -100,7 +98,6 @@ const ActionItemComponent = memo(
           </div>
         </div>
 
-        {/* Action Content */}
         <div className="bg-card rounded-lg p-4 border border-border">
           {actionItem.action === "comment" && actionItem.data.comment && (
             <div className="flex gap-3">
@@ -264,7 +261,6 @@ const ActionItemComponent = memo(
           )}
         </div>
 
-        {/* Reasoning */}
         {actionItem.reasoning && (
           <details className="mt-3">
             <summary className="cursor-pointer text-xs text-muted-foreground hover:text-foreground font-medium flex items-center gap-1 transition-colors">
@@ -281,7 +277,6 @@ const ActionItemComponent = memo(
 );
 ActionItemComponent.displayName = "ActionItem";
 
-// --- Main Page Component ---
 export default function MeetingDetailPage() {
   const params = useParams();
   const router = useRouter();
@@ -293,7 +288,6 @@ export default function MeetingDetailPage() {
     "actions"
   );
 
-  // Stop generating state when actions appear
   useEffect(() => {
     if (meeting?.actions && meeting.actions.length > 0) {
       setIsGenerating(false);
@@ -325,7 +319,6 @@ export default function MeetingDetailPage() {
     router.push("/dashboard");
   }, [router]);
 
-  // Group actions by type - memoized to prevent recomputation on every render
   const groupedActions = useMemo(() => {
     return meeting?.actions?.reduce(
       (acc, action) => {
@@ -344,7 +337,6 @@ export default function MeetingDetailPage() {
   );
   const isProcessing = meeting?.status === "processing" || isGenerating;
 
-  // --- Render Logic ---
   if (loading) {
     return (
       <div className="flex items-center justify-center h-full">
@@ -388,7 +380,6 @@ export default function MeetingDetailPage() {
   return (
     <div className="min-h-screen bg-background fade-in">
       <div className="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
-        {/* Back Button */}
         <button
           onClick={goBack}
           className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground mb-6 font-medium transition-colors btn-smooth"
@@ -397,7 +388,6 @@ export default function MeetingDetailPage() {
           Back to All Meetings
         </button>
 
-        {/* Meeting Header Card */}
         <div className="bg-card rounded-xl shadow-sm border border-border p-8 mb-6 slide-in-up gradient-bg">
           <div className="flex items-start justify-between mb-6">
             <div className="flex-1">
@@ -452,7 +442,6 @@ export default function MeetingDetailPage() {
           )}
         </div>
 
-        {/* Tab Navigation */}
         <div className="bg-card rounded-t-xl shadow-sm border border-border border-b-0 slide-in-up" style={{ animationDelay: "100ms" }}>
           <div className="flex border-b border-border">
             <button
@@ -488,9 +477,7 @@ export default function MeetingDetailPage() {
           </div>
         </div>
 
-        {/* Content Area */}
         <div className="bg-card rounded-b-xl shadow-sm border border-border border-t-0 p-8 slide-in-up" style={{ animationDelay: "150ms" }}>
-          {/* Actions Tab */}
           {activeTab === "actions" && (
             <>
               {!hasActions && !isProcessing && (
@@ -529,7 +516,6 @@ export default function MeetingDetailPage() {
 
               {hasActions && (
                 <div className="space-y-8">
-                  {/* Action Statistics */}
                   {Object.keys(groupedActions).length > 0 && (
                     <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
                       {Object.entries(groupedActions).map(([type, items], idx) => {
@@ -552,7 +538,6 @@ export default function MeetingDetailPage() {
                     </div>
                   )}
 
-                  {/* Actions List */}
                   <div className="space-y-4">
                     {meeting.actions?.map((actionItem, index) => (
                       <ActionItemComponent
@@ -567,7 +552,6 @@ export default function MeetingDetailPage() {
             </>
           )}
 
-          {/* Transcript Tab */}
           {activeTab === "transcript" && (
             <>
               {meeting.transcript && meeting.transcript.length > 0 ? (

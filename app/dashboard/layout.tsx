@@ -9,21 +9,18 @@ import { Loader2 } from "lucide-react";
 import { useUploadModal } from "@/contexts/UploadModalProvider";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 
-// Lazy load the UploadModal for better performance
 const UploadModal = lazy(() =>
   import("@/components/modals/UploadModal").then((mod) => ({
     default: mod.UploadModal,
   }))
 );
 
-// Helper component to render the modal with lazy loading
 function DashboardModalController() {
   const { isUploadModalOpen } = useUploadModal();
   const { user } = useAuth();
 
   if (!isUploadModalOpen || !user) return null;
 
-  // Render the lazy-loaded UploadModal with a fallback loader
   return (
     <Suspense
       fallback={
@@ -47,24 +44,20 @@ export default function DashboardLayout({
   const { user, userData, loading } = useAuth();
   const router = useRouter();
 
-  // Handle redirects in useEffect to avoid rendering errors
   useEffect(() => {
     if (loading) return;
 
-    // Redirect to login if not authenticated
     if (!user) {
       router.push("/login");
       return;
     }
 
-    // Redirect to setup if user doesn't have a team
     if (userData && !userData.teamId) {
       router.push("/setup");
       return;
     }
   }, [user, userData, loading, router]);
 
-  // Show loading state during auth changes or when user/userData is missing
   if (loading || !user) {
     return (
       <div className="flex h-screen w-full items-center justify-center bg-background">
@@ -81,7 +74,6 @@ export default function DashboardLayout({
   return (
     <ErrorBoundary>
       <div className="flex h-screen bg-background fade-in">
-        {/* Mobile overlay */}
         {isMobileSidebarOpen && (
           <div
             className="fixed inset-0 bg-background/80 backdrop-blur-sm z-20 md:hidden fade-in"
@@ -89,14 +81,12 @@ export default function DashboardLayout({
           />
         )}
 
-        {/* Sidebar - responsive */}
         <Sidebar
           isCollapsed={isSidebarCollapsed}
           isMobileOpen={isMobileSidebarOpen}
           onMobileClose={() => setIsMobileSidebarOpen(false)}
         />
 
-        {/* Main content area with responsive margins */}
         <div
           className={`flex-1 flex flex-col transition-all duration-300 ease-in-out
             ${isSidebarCollapsed ? "md:ml-20" : "md:ml-64"}
@@ -105,8 +95,6 @@ export default function DashboardLayout({
           <Header
             user={user!}
             toggleSidebar={() => {
-              // On mobile, toggle mobile sidebar
-              // On desktop, toggle collapse
               if (window.innerWidth < 768) {
                 setIsMobileSidebarOpen(!isMobileSidebarOpen);
               } else {
@@ -119,7 +107,6 @@ export default function DashboardLayout({
           </main>
         </div>
 
-        {/* Lazy-loaded modal component */}
         <DashboardModalController />
       </div>
     </ErrorBoundary>

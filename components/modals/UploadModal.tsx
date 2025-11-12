@@ -4,12 +4,12 @@ import { useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { User } from 'firebase/auth';
 import { doc, getDoc } from 'firebase/firestore';
-import { db } from '../../lib/firebase'; // Corrected Path
+import { db } from '../../lib/firebase';
 import { X, Upload, FileAudio, Loader2, Info } from 'lucide-react';
-import { useUploadModal } from '../../contexts/UploadModalProvider'; // Corrected Path
+import { useUploadModal } from '../../contexts/UploadModalProvider';
 
 interface UploadMeetingModalProps {
-  user: User; // It now needs the user object to find the teamId
+  user: User;
 }
 
 export function UploadModal({ user }: UploadMeetingModalProps) {
@@ -82,7 +82,6 @@ export function UploadModal({ user }: UploadMeetingModalProps) {
     setError(null);
 
     try {
-      // --- FIX: Fetch the teamId right before we need it ---
       setProcessingStatus('Preparing upload...');
       const userDocRef = doc(db, "users", user.uid);
       const userDoc = await getDoc(userDocRef);
@@ -90,7 +89,6 @@ export function UploadModal({ user }: UploadMeetingModalProps) {
         throw new Error("Could not find your team information. Please try again.");
       }
       const teamId = userDoc.data().teamId;
-      // --- END FIX ---
 
       setProcessingStatus('Fetching team voiceprints...');
       const voiceprintsRes = await fetch(`/api/teams/${teamId}/voiceprints`);
@@ -119,7 +117,7 @@ export function UploadModal({ user }: UploadMeetingModalProps) {
           transcript: processedData.transcript,
           speakerMap: processedData.speaker_map,
           unresolvedSpeakers: processedData.unresolved_speakers,
-          uploadedBy: user.uid, // Also good to store who uploaded it
+          uploadedBy: user.uid,
         }),
       });
       if (!saveRes.ok) throw new Error('Failed to save the meeting transcript.');
