@@ -243,15 +243,17 @@ export default function TeamPage() {
               )}
             </div>
 
-            {/* Invite Code Section */}
-            {isLeader && (
+            {/* Invite Code Section - Visible to all members */}
+            {teamData.inviteCode && (
               <div className="pt-6 border-t border-border">
                 <h3 className="text-lg font-semibold text-foreground mb-3 flex items-center gap-2">
                   <Hash className="w-5 h-5" />
                   Invite Code
                 </h3>
                 <p className="text-sm text-muted-foreground mb-4">
-                  Share this code with others to invite them to your team.
+                  {isLeader
+                    ? "Share this code with others to invite them to your team."
+                    : "Share this code with others to invite them to join the team."}
                 </p>
                 <div className="flex flex-col sm:flex-row gap-3">
                   <div className="flex-1 flex items-center gap-3 p-4 bg-muted/30 rounded-xl border border-border">
@@ -271,14 +273,16 @@ export default function TeamPage() {
                       )}
                     </button>
                   </div>
-                  <button
-                    onClick={handleRegenerateCode}
-                    disabled={regenerating}
-                    className="btn-secondary inline-flex items-center gap-2 whitespace-nowrap"
-                  >
-                    <RefreshCw className={`w-4 h-4 ${regenerating ? 'animate-spin' : ''}`} />
-                    {regenerating ? 'Regenerating...' : 'Regenerate'}
-                  </button>
+                  {isLeader && (
+                    <button
+                      onClick={handleRegenerateCode}
+                      disabled={regenerating}
+                      className="btn-secondary inline-flex items-center gap-2 whitespace-nowrap"
+                    >
+                      <RefreshCw className={`w-4 h-4 ${regenerating ? 'animate-spin' : ''}`} />
+                      {regenerating ? 'Regenerating...' : 'Regenerate'}
+                    </button>
+                  )}
                 </div>
               </div>
             )}

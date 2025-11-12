@@ -122,7 +122,18 @@ export function TeamSetupStep({ user, onComplete }: TeamSetupStepProps) {
       onComplete(teamDoc.id);
     } catch (err: any) {
       console.error(err);
-      setError(err.message || "Failed to join team.");
+
+      // Check for Firestore permission errors
+      if (err.code === 'permission-denied' || err.message?.includes('Missing or insufficient permissions')) {
+        setError(
+          "⚠️ Database permissions error: Your Firestore security rules need to be updated. " +
+          "Please check the firestore.rules file in your project root for the required configuration."
+        );
+      } else if (err.message) {
+        setError(err.message);
+      } else {
+        setError("Failed to join team. Please try again.");
+      }
     } finally {
       setIsSubmitting(false);
     }
