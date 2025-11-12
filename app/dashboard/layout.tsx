@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, ReactNode, lazy, Suspense } from "react";
+import { useState, useEffect, ReactNode, lazy, Suspense } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/contexts/AuthProvider";
 import { Sidebar } from "@/components/dashboard/Sidebar";
@@ -47,17 +47,22 @@ export default function DashboardLayout({
   const { user, userData, loading } = useAuth();
   const router = useRouter();
 
-  // Redirect to login if not authenticated
-  if (!loading && !user) {
-    router.push("/login");
-    return null;
-  }
+  // Handle redirects in useEffect to avoid rendering errors
+  useEffect(() => {
+    if (loading) return;
 
-  // Redirect to setup if user doesn't have a team
-  if (!loading && user && userData && !userData.teamId) {
-    router.push("/setup");
-    return null;
-  }
+    // Redirect to login if not authenticated
+    if (!user) {
+      router.push("/login");
+      return;
+    }
+
+    // Redirect to setup if user doesn't have a team
+    if (userData && !userData.teamId) {
+      router.push("/setup");
+      return;
+    }
+  }, [user, userData, loading, router]);
 
   if (loading) {
     return (

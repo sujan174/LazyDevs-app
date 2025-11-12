@@ -93,14 +93,30 @@ export function TeamSetupStep({ user, onComplete }: TeamSetupStepProps) {
     try {
       const inviteCode = joinTeamId.trim().toUpperCase();
 
+      console.log("🔍 Searching for team with invite code:", inviteCode);
+
       // Query teams collection for matching invite code (with limit for security rules)
       const teamsRef = collection(db, "teams");
       const q = query(teamsRef, where("inviteCode", "==", inviteCode), limit(1));
+
+      console.log("📡 Executing Firestore query...");
       const querySnapshot = await getDocs(q);
+      console.log("📊 Query results:", {
+        empty: querySnapshot.empty,
+        size: querySnapshot.size,
+        docs: querySnapshot.docs.length
+      });
 
       if (querySnapshot.empty) {
-        throw new Error("Invalid invite code. Please check and try again.");
+        console.error("❌ No team found with invite code:", inviteCode);
+        throw new Error(
+          `No team found with code "${inviteCode}". ` +
+          `Make sure: 1) The code is correct, 2) The team was created recently (after invite codes were added), ` +
+          `3) You've deployed the latest Firestore rules.`
+        );
       }
+
+      console.log("✅ Team found!");
 
       // Get the first matching team
       const teamDoc = querySnapshot.docs[0];
