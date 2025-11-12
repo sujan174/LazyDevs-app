@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { User } from "firebase/auth";
+import { User, signOut } from "firebase/auth";
 import {
   doc,
   addDoc,
@@ -15,10 +15,11 @@ import {
   where,
   getDocs,
 } from "firebase/firestore";
-import { db } from "@/lib/firebase";
+import { db, auth } from "@/lib/firebase";
+import { useRouter } from "next/navigation";
 
 // Importing icons
-import { Loader2, Users, UserPlus, XCircle } from "lucide-react";
+import { Loader2, Users, UserPlus, XCircle, LogOut } from "lucide-react";
 
 // Helper function to generate 8-character alphanumeric invite code
 function generateInviteCode(): string {
@@ -36,10 +37,20 @@ interface TeamSetupStepProps {
 }
 
 export function TeamSetupStep({ user, onComplete }: TeamSetupStepProps) {
+  const router = useRouter();
   const [teamName, setTeamName] = useState("");
   const [joinTeamId, setJoinTeamId] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  const handleSignOut = async () => {
+    try {
+      await signOut(auth);
+      router.push("/login");
+    } catch (error) {
+      console.error("Failed to sign out:", error);
+    }
+  };
 
   const handleCreateTeam = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -47,7 +58,7 @@ export function TeamSetupStep({ user, onComplete }: TeamSetupStepProps) {
     setError(null);
     setIsSubmitting(true);
     try {
-      const inviteCode = generateInviteCode();
+      const inviteCode = generateInviteCode().toUpperCase();
       const teamCollectionRef = collection(db, "teams");
       const newTeamDoc = await addDoc(teamCollectionRef, {
         name: teamName,
@@ -55,7 +66,7 @@ export function TeamSetupStep({ user, onComplete }: TeamSetupStepProps) {
         members: [user.uid],
         createdAt: serverTimestamp(),
         inviteCode: inviteCode,
-        inviteCodeExpiresAt: serverTimestamp(),
+        inviteCodeExpiresAt: null, // Will be set properly in future
         inviteCodeUpdatedAt: serverTimestamp(),
       });
       const userDocRef = doc(db, "users", user.uid);
@@ -119,7 +130,16 @@ export function TeamSetupStep({ user, onComplete }: TeamSetupStepProps) {
 
   // Otherwise, show the original create/join form
   return (
-    <div className="modern-card p-8 w-full max-w-lg fade-in-scale">
+    <div className="modern-card p-8 w-full max-w-lg fade-in-scale relative">
+      {/* Sign Out Button */}
+      <button
+        onClick={handleSignOut}
+        className="absolute top-4 right-4 p-2 text-muted-foreground hover:text-foreground hover:bg-secondary rounded-lg transition-all duration-200 group"
+        title="Sign out"
+      >
+        <LogOut className="w-4 h-4" />
+      </button>
+
       {/* Wizard Header */}
       <div className="text-center mb-8 slide-in-down">
         <div className="inline-flex items-center px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-semibold mb-4">
@@ -187,10 +207,10 @@ export function TeamSetupStep({ user, onComplete }: TeamSetupStepProps) {
           <input
             id="team-id"
             type="text"
-            className="input-field"
+            className="input-field uppercase"
             placeholder="Enter 8-character invite code"
             value={joinTeamId}
-            onChange={(e) => setJoinTeamId(e.target.value)}
+            onChange={(e) => setJoinTeamId(e.target.value.toUpperCase())}
             required
             disabled={isSubmitting}
             maxLength={8}
