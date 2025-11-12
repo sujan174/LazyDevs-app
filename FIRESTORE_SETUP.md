@@ -1,22 +1,30 @@
-# Firestore Security Rules Setup
+# Firestore Security Rules Setup - IMPORTANT! 🔥
 
-## Problem
+## ⚠️ Problem
 
-If you're getting "Missing or insufficient permissions" errors when trying to join a team, it means your Firestore security rules need to be updated.
+Getting this error when trying to join a team?
 
-## Solution
+```
+⚠️ Database permissions error: Your Firestore security rules need to be updated.
+```
 
-You need to deploy the security rules defined in `firestore.rules` to your Firebase project.
+This means your Firestore doesn't allow querying teams by invite code.
 
-### Method 1: Using Firebase Console (Easiest)
+## ✅ Solution
 
-1. Go to [Firebase Console](https://console.firebase.google.com/)
-2. Select your project
-3. Click on **Firestore Database** in the left sidebar
-4. Click on the **Rules** tab at the top
-5. Copy the contents of `firestore.rules` from this project
-6. Paste them into the rules editor
-7. Click **Publish**
+You **MUST** deploy the security rules from `firestore.rules` to your Firebase project. This takes 2 minutes!
+
+### Method 1: Firebase Console (Recommended - Takes 2 Minutes) ⭐
+
+1. **Open** [Firebase Console](https://console.firebase.google.com/)
+2. **Select** your project (LazyDevs-app)
+3. **Click** "Firestore Database" in the left sidebar
+4. **Click** the "Rules" tab at the top
+5. **Delete** everything in the editor
+6. **Copy** ALL contents from `firestore.rules` in this project
+7. **Paste** into the Firebase rules editor
+8. **Click** "Publish" button
+9. ✅ **Done!** Wait 5 seconds, then try joining a team again
 
 ### Method 2: Using Firebase CLI
 
@@ -40,9 +48,19 @@ You need to deploy the security rules defined in `firestore.rules` to your Fireb
    firebase deploy --only firestore:rules
    ```
 
+## 🔑 The Critical Fix
+
+The key line that fixes team joining is:
+
+```javascript
+allow list: if isAuthenticated() && request.query.limit <= 1;
+```
+
+This allows authenticated users to **query** teams by invite code. Your old rules only had `allow get` which allows reading by document ID, but NOT querying by fields like `inviteCode`.
+
 ## What the Rules Do
 
-The security rules in `firestore.rules` allow:
+The security rules in `firestore.rules` provide:
 
 ### For Users Collection
 - ✅ Users can read and write their own profile

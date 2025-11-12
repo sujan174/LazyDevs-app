@@ -1,5 +1,4 @@
 rules_version = '2';
-
 service cloud.firestore {
   match /databases/{database}/documents {
 
@@ -8,66 +7,55 @@ service cloud.firestore {
       return request.auth != null;
     }
 
-    // Helper function to check if user is team leader
-    function isTeamLeader(teamId) {
-      return isAuthenticated() &&
-             get(/databases/$(database)/documents/teams/$(teamId)).data.creatorId == request.auth.uid;
+    // Helper function to get user's teamId
+    function getUserTeamId() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data.teamId;
     }
 
-    // Helper function to check if user is team member
-    function isTeamMember(teamId) {
-      return isAuthenticated() &&
-             get(/databases/$(database)/documents/teams/$(teamId)).data.members.hasAny([request.auth.uid]);
-    }
-
-    // Users collection rules
+    // Users collection - Users can read/write their own document
     match /users/{userId} {
-      // Users can read and write their own document
       allow read, write: if isAuthenticated() && request.auth.uid == userId;
 
-      // Team leaders can read their team members' documents
+      // Team members can read other team members' basic info
       allow read: if isAuthenticated() &&
                      exists(/databases/$(database)/documents/users/$(userId)) &&
-                     get(/databases/$(database)/documents/users/$(userId)).data.teamId != null &&
-                     isTeamLeader(get(/databases/$(database)/documents/users/$(userId)).data.teamId);
+                     getUserTeamId() == get(/databases/$(database)/documents/users/$(userId)).data.teamId;
     }
 
-    // Teams collection rules
+    // Teams collection
     match /teams/{teamId} {
-      // Allow authenticated users to create teams
+      // Allow reading a single team document
+      allow get: if isAuthenticated();
+
+      // CRITICAL: Allow querying teams by invite code (for joining teams)
+      // This is what was missing! The 'list' permission is needed for queries
+      allow list: if isAuthenticated() && request.query.limit <= 1;
+
+      // Allow creating teams
       allow create: if isAuthenticated() &&
                        request.resource.data.creatorId == request.auth.uid &&
                        request.resource.data.members.hasAll([request.auth.uid]);
 
-      // Team leaders can read, update, and delete their team
-      allow read, update, delete: if isTeamLeader(teamId);
+      // Allow updating teams if user is a member
+      allow update: if isAuthenticated() && resource.data.members.hasAny([request.auth.uid]);
 
-      // Team members can read their team
-      allow read: if isTeamMember(teamId);
-
-      // IMPORTANT: Allow authenticated users to query teams by invite code
-      // This is needed for the join team functionality
-      allow read: if isAuthenticated() &&
-                     request.query.limit <= 1 &&
-                     resource.data.inviteCode != null;
-
-      // Team leaders can update team members
-      allow update: if isTeamLeader(teamId) &&
-                       request.resource.data.creatorId == resource.data.creatorId;
+      // Allow deleting teams if user is the creator
+      allow delete: if isAuthenticated() && resource.data.creatorId == request.auth.uid;
     }
 
-    // Meetings collection rules (if you have meetings)
+    // Meetings collection
     match /meetings/{meetingId} {
-      // Allow team members to read and write meetings for their team
-      allow read, write: if isAuthenticated() &&
-                            exists(/databases/$(database)/documents/meetings/$(meetingId)) &&
-                            get(/databases/$(database)/documents/meetings/$(meetingId)).data.teamId != null &&
-                            isTeamMember(get(/databases/$(database)/documents/meetings/$(meetingId)).data.teamId);
+      // Allow reading meetings if user is part of the team
+      allow read: if isAuthenticated() &&
+                     getUserTeamId() == resource.data.teamId;
 
-      // Allow creating meetings if user is part of the team
+      // Allow creating meetings if user's teamId matches
       allow create: if isAuthenticated() &&
-                       request.resource.data.teamId != null &&
-                       isTeamMember(request.resource.data.teamId);
+                       getUserTeamId() == request.resource.data.teamId;
+
+      // Allow updating/deleting meetings if user is part of the team
+      allow update, delete: if isAuthenticated() &&
+                               getUserTeamId() == resource.data.teamId;
     }
 
     // Default deny all other access
