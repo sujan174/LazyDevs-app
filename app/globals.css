@@ -159,14 +159,14 @@
     @apply p-6 pt-0;
   }
 
-  /* Beautiful Primary Button - Dark mode optimized */
+  /* Beautiful Primary Button - Dark mode optimized - FASTER TRANSITIONS */
   .btn-primary {
-    @apply px-6 py-2.5 bg-primary text-primary-foreground rounded-xl font-medium shadow-md shadow-primary/15 hover:shadow-lg hover:shadow-primary/25 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] relative overflow-hidden;
+    @apply px-6 py-2.5 bg-primary text-primary-foreground rounded-xl font-medium shadow-md shadow-primary/15 hover:shadow-lg hover:shadow-primary/25 transition-all duration-150 hover:scale-[1.02] active:scale-[0.98] relative overflow-hidden;
   }
 
   .btn-primary::before {
     content: '';
-    @apply absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent translate-x-[-200%] transition-transform duration-500;
+    @apply absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent translate-x-[-200%] transition-transform duration-300;
   }
 
   .btn-primary:hover::before {
@@ -183,9 +183,9 @@
     @apply px-6 py-2.5 text-foreground rounded-lg font-medium hover:bg-secondary/50 transition-all duration-200 hover:scale-[1.02] active:scale-95;
   }
 
-  /* Elegant Input Field - Dark mode optimized */
+  /* Elegant Input Field - Dark mode optimized - FASTER */
   .input-field {
-    @apply w-full px-4 py-3 bg-input border-2 border-border rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary/60 transition-all duration-300 placeholder:text-muted-foreground;
+    @apply w-full px-4 py-3 bg-input border-2 border-border rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary/60 transition-all duration-150 placeholder:text-muted-foreground;
   }
 
   .input-field:focus {
@@ -202,9 +202,9 @@
     @apply backdrop-blur-xl bg-card/80 border border-border/50 rounded-2xl shadow-2xl;
   }
 
-  /* Elegant card with soft elevation - Dark mode optimized */
+  /* Elegant card with soft elevation - Dark mode optimized - FASTER */
   .modern-card {
-    @apply bg-card/80 border border-border/60 rounded-2xl shadow-lg shadow-black/30 hover:shadow-xl hover:shadow-primary/10 transition-all duration-300 relative overflow-hidden backdrop-blur-sm;
+    @apply bg-card/80 border border-border/60 rounded-2xl shadow-lg shadow-black/30 hover:shadow-xl hover:shadow-primary/10 transition-all duration-200 relative overflow-hidden backdrop-blur-sm;
   }
 
   .modern-card::before {
@@ -222,39 +222,39 @@
     @apply absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/5 pointer-events-none;
   }
 
-  /* Subtle animations inspired by modern design */
+  /* Subtle animations inspired by modern design - SNAPPIER & FASTER */
   .fade-in {
-    animation: fadeIn 0.5s ease-in-out;
+    animation: fadeIn 0.25s ease-in-out;
   }
 
   .slide-in-up {
-    animation: slideInUp 0.5s ease-out;
+    animation: slideInUp 0.3s ease-out;
   }
 
   .slide-in-right {
-    animation: slideInRight 0.5s ease-out;
+    animation: slideInRight 0.3s ease-out;
   }
 
   .scale-in {
-    animation: scaleIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    animation: scaleIn 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
   }
 
   .slide-in-down {
-    animation: slideInDown 0.5s ease-out;
+    animation: slideInDown 0.3s ease-out;
   }
 
   .fade-in-scale {
-    animation: fadeInScale 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+    animation: fadeInScale 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
   }
 
-  /* Card with hover effect */
+  /* Card with hover effect - SNAPPIER */
   .card-hover {
-    @apply transition-all duration-300 ease-out hover:shadow-xl hover:-translate-y-1;
+    @apply transition-all duration-200 ease-out hover:shadow-xl hover:-translate-y-1;
   }
 
-  /* Button with smooth transition */
+  /* Button with smooth transition - FASTER */
   .btn-smooth {
-    @apply transition-all duration-200 ease-out hover:scale-105 active:scale-95;
+    @apply transition-all duration-150 ease-out hover:scale-105 active:scale-95;
   }
 
   /* Skeleton loading animation - Optimized */
@@ -303,13 +303,13 @@
     animation: pulseOpacity 2s ease-in-out infinite;
   }
 
-  /* Staggered animation delays for lists */
-  .stagger-1 { animation-delay: 0.05s; }
-  .stagger-2 { animation-delay: 0.1s; }
-  .stagger-3 { animation-delay: 0.15s; }
-  .stagger-4 { animation-delay: 0.2s; }
-  .stagger-5 { animation-delay: 0.25s; }
-  .stagger-6 { animation-delay: 0.3s; }
+  /* Staggered animation delays for lists - TIGHTER TIMING */
+  .stagger-1 { animation-delay: 0.03s; }
+  .stagger-2 { animation-delay: 0.06s; }
+  .stagger-3 { animation-delay: 0.09s; }
+  .stagger-4 { animation-delay: 0.12s; }
+  .stagger-5 { animation-delay: 0.15s; }
+  .stagger-6 { animation-delay: 0.18s; }
 
   /* Shimmer loading effect */
   .shimmer {
@@ -322,24 +322,24 @@
     animation: shimmer 2s infinite;
   }
 
-  /* Page transition wrapper */
+  /* Page transition wrapper - FASTER */
   .page-transition {
-    animation: pageTransition 0.4s ease-out;
+    animation: pageTransition 0.25s ease-out;
   }
 
-  /* Bounce in animation for modals */
+  /* Bounce in animation for modals - SNAPPIER */
   .bounce-in {
-    animation: bounceIn 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    animation: bounceIn 0.35s cubic-bezier(0.68, -0.55, 0.265, 1.55);
   }
 
-  /* Slide in from left */
+  /* Slide in from left - FASTER */
   .slide-in-left {
-    animation: slideInLeft 0.4s ease-out;
+    animation: slideInLeft 0.3s ease-out;
   }
 
-  /* Smooth reveal from bottom */
+  /* Smooth reveal from bottom - FASTER */
   .reveal-bottom {
-    animation: revealBottom 0.6s ease-out;
+    animation: revealBottom 0.4s ease-out;
   }
 
   /* Responsive utilities */
