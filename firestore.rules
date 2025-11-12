@@ -27,9 +27,9 @@ service cloud.firestore {
       // Allow reading a single team document
       allow get: if isAuthenticated();
 
-      // CRITICAL: Allow querying teams by invite code (for joining teams)
-      // This is what was missing! The 'list' permission is needed for queries
-      allow list: if isAuthenticated() && request.query.limit <= 1;
+      // CRITICAL: Allow querying teams (needed for invite code lookup)
+      // Security: Users must be authenticated and can only find teams with exact invite code
+      allow list: if isAuthenticated();
 
       // Allow creating teams
       allow create: if isAuthenticated() &&

@@ -14,6 +14,7 @@ import {
   query,
   where,
   getDocs,
+  limit,
 } from "firebase/firestore";
 import { db, auth } from "@/lib/firebase";
 import { useRouter } from "next/navigation";
@@ -92,9 +93,9 @@ export function TeamSetupStep({ user, onComplete }: TeamSetupStepProps) {
     try {
       const inviteCode = joinTeamId.trim().toUpperCase();
 
-      // Query teams collection for matching invite code
+      // Query teams collection for matching invite code (with limit for security rules)
       const teamsRef = collection(db, "teams");
-      const q = query(teamsRef, where("inviteCode", "==", inviteCode));
+      const q = query(teamsRef, where("inviteCode", "==", inviteCode), limit(1));
       const querySnapshot = await getDocs(q);
 
       if (querySnapshot.empty) {
