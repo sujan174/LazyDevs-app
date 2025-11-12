@@ -45,54 +45,54 @@
 }
 
 :root {
-  /* Aerius "Soft Light" - Gentle, warm, and inviting */
+  /* Aerius "Soft Dark" - Gentle, comfortable dark theme inspired by Claude */
   --radius: 0.875rem;
 
-  /* Soft warm background - inspired by Claude & Gemini light mode */
-  --background: oklch(0.99 0.003 40);
-  --foreground: oklch(0.20 0.015 30);
+  /* Soft dark background - warm and comfortable */
+  --background: oklch(0.20 0.010 265);
+  --foreground: oklch(0.92 0.008 265);
 
   /* Cards with subtle elevation */
-  --card: oklch(0.98 0.004 40);
-  --card-foreground: oklch(0.20 0.015 30);
+  --card: oklch(0.23 0.012 265);
+  --card-foreground: oklch(0.92 0.008 265);
 
   /* Popovers with gentle shadow */
-  --popover: oklch(1.00 0.000 0);
-  --popover-foreground: oklch(0.20 0.015 30);
+  --popover: oklch(0.25 0.012 265);
+  --popover-foreground: oklch(0.92 0.008 265);
 
-  /* Refined indigo-blue primary - professional and calming */
-  --primary: oklch(0.50 0.18 265);
-  --primary-foreground: oklch(0.99 0.003 250);
+  /* Soft indigo-blue primary - comfortable and elegant */
+  --primary: oklch(0.65 0.16 265);
+  --primary-foreground: oklch(0.98 0.005 265);
 
   /* Subtle secondary for backgrounds */
-  --secondary: oklch(0.96 0.005 40);
-  --secondary-foreground: oklch(0.25 0.015 30);
+  --secondary: oklch(0.25 0.012 265);
+  --secondary-foreground: oklch(0.88 0.008 265);
 
   /* Soft muted tones */
-  --muted: oklch(0.95 0.006 40);
-  --muted-foreground: oklch(0.52 0.012 30);
+  --muted: oklch(0.27 0.012 265);
+  --muted-foreground: oklch(0.62 0.010 265);
 
   /* Elegant violet accent */
-  --accent: oklch(0.55 0.15 285);
-  --accent-foreground: oklch(0.99 0.003 250);
+  --accent: oklch(0.68 0.14 285);
+  --accent-foreground: oklch(0.98 0.005 265);
 
   /* Soft red for destructive actions */
-  --destructive: oklch(0.52 0.20 25);
+  --destructive: oklch(0.58 0.18 25);
 
   /* Delicate borders */
-  --border: oklch(0.90 0.008 40);
-  --input: oklch(0.96 0.005 40);
+  --border: oklch(0.32 0.012 265);
+  --input: oklch(0.25 0.012 265);
 
   /* Soft focus ring */
-  --ring: oklch(0.50 0.18 265);
+  --ring: oklch(0.65 0.16 265);
 
   /* Fresh green for success */
-  --success: oklch(0.50 0.16 160);
-  --success-foreground: oklch(0.99 0.003 250);
+  --success: oklch(0.62 0.14 160);
+  --success-foreground: oklch(0.98 0.005 265);
 
   /* Warm amber for warnings */
-  --warning: oklch(0.60 0.14 70);
-  --warning-foreground: oklch(0.20 0.015 30);
+  --warning: oklch(0.68 0.14 70);
+  --warning-foreground: oklch(0.98 0.005 265);
 }
 
 @layer base {
@@ -101,11 +101,11 @@
   }
   body {
     @apply bg-background text-foreground font-sans antialiased;
-    /* Soft, warm background with gentle gradients */
+    /* Soft dark background with subtle gradients */
     background-color: var(--background);
     background-image:
-      radial-gradient(at 0% 0%, oklch(0.96 0.03 265 / 0.35) 0px, transparent 50%),
-      radial-gradient(at 100% 100%, oklch(0.97 0.02 285 / 0.25) 0px, transparent 50%);
+      radial-gradient(at 0% 0%, oklch(0.24 0.05 265 / 0.4) 0px, transparent 50%),
+      radial-gradient(at 100% 100%, oklch(0.23 0.04 285 / 0.3) 0px, transparent 50%);
   }
 
   /* Smooth scrolling for better UX */
@@ -113,7 +113,7 @@
     scroll-behavior: smooth;
   }
 
-  /* Custom scrollbar for light theme */
+  /* Custom scrollbar for dark theme */
   ::-webkit-scrollbar {
     width: 10px;
     height: 10px;
@@ -124,11 +124,11 @@
   }
 
   ::-webkit-scrollbar-thumb {
-    @apply bg-border rounded-full;
+    @apply bg-muted rounded-full;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    @apply bg-muted-foreground/40;
+    @apply bg-muted-foreground/50;
   }
 }
 
@@ -159,14 +159,14 @@
     @apply p-6 pt-0;
   }
 
-  /* Beautiful Primary Button - Light mode optimized */
+  /* Beautiful Primary Button - Dark mode optimized */
   .btn-primary {
-    @apply px-6 py-2.5 bg-gradient-to-r from-primary to-primary/90 text-primary-foreground rounded-xl font-medium shadow-md shadow-primary/20 hover:shadow-xl hover:shadow-primary/30 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] relative overflow-hidden;
+    @apply px-6 py-2.5 bg-primary text-primary-foreground rounded-xl font-medium shadow-md shadow-primary/15 hover:shadow-lg hover:shadow-primary/25 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] relative overflow-hidden;
   }
 
   .btn-primary::before {
     content: '';
-    @apply absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-200%] transition-transform duration-500;
+    @apply absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent translate-x-[-200%] transition-transform duration-500;
   }
 
   .btn-primary:hover::before {
@@ -183,13 +183,13 @@
     @apply px-6 py-2.5 text-foreground rounded-lg font-medium hover:bg-secondary/50 transition-all duration-200 hover:scale-[1.02] active:scale-95;
   }
 
-  /* Elegant Input Field - Light mode optimized */
+  /* Elegant Input Field - Dark mode optimized */
   .input-field {
-    @apply w-full px-4 py-3 bg-white border-2 border-border rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/60 transition-all duration-300 placeholder:text-muted-foreground/70;
+    @apply w-full px-4 py-3 bg-input border-2 border-border rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary/60 transition-all duration-300 placeholder:text-muted-foreground;
   }
 
   .input-field:focus {
-    @apply shadow-lg shadow-primary/10;
+    @apply shadow-lg shadow-primary/15;
   }
 
   /* Custom link style */
@@ -202,14 +202,14 @@
     @apply backdrop-blur-xl bg-card/80 border border-border/50 rounded-2xl shadow-2xl;
   }
 
-  /* Elegant card with soft elevation - Light mode optimized */
+  /* Elegant card with soft elevation - Dark mode optimized */
   .modern-card {
-    @apply bg-white/80 border border-border/60 rounded-2xl shadow-lg shadow-black/5 hover:shadow-xl hover:shadow-black/10 transition-all duration-300 relative overflow-hidden backdrop-blur-sm;
+    @apply bg-card/80 border border-border/60 rounded-2xl shadow-lg shadow-black/30 hover:shadow-xl hover:shadow-primary/10 transition-all duration-300 relative overflow-hidden backdrop-blur-sm;
   }
 
   .modern-card::before {
     content: '';
-    @apply absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent;
+    @apply absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/15 to-transparent;
   }
 
   /* Glossy card variant */
