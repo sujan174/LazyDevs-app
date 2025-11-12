@@ -11,11 +11,24 @@ import {
   collection,
   arrayUnion,
   serverTimestamp,
+  query,
+  where,
+  getDocs,
 } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 
 // Importing icons
 import { Loader2, Users, UserPlus, XCircle } from "lucide-react";
+
+// Helper function to generate 8-character alphanumeric invite code
+function generateInviteCode(): string {
+  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; // Excluded similar looking chars
+  let code = '';
+  for (let i = 0; i < 8; i++) {
+    code += chars.charAt(Math.floor(Math.random() * chars.length));
+  }
+  return code;
+}
 
 interface TeamSetupStepProps {
   user: User;
@@ -34,12 +47,16 @@ export function TeamSetupStep({ user, onComplete }: TeamSetupStepProps) {
     setError(null);
     setIsSubmitting(true);
     try {
+      const inviteCode = generateInviteCode();
       const teamCollectionRef = collection(db, "teams");
       const newTeamDoc = await addDoc(teamCollectionRef, {
         name: teamName,
         creatorId: user.uid,
         members: [user.uid],
         createdAt: serverTimestamp(),
+        inviteCode: inviteCode,
+        inviteCodeExpiresAt: serverTimestamp(),
+        inviteCodeUpdatedAt: serverTimestamp(),
       });
       const userDocRef = doc(db, "users", user.uid);
       // Use setDoc with merge to create document if it doesn't exist
@@ -61,13 +78,33 @@ export function TeamSetupStep({ user, onComplete }: TeamSetupStepProps) {
     if (!user || !joinTeamId.trim()) return;
     setError(null);
     setIsSubmitting(true);
-    const teamDocRef = doc(db, "teams", joinTeamId.trim());
     try {
-      const teamDoc = await getDoc(teamDocRef);
-      if (!teamDoc.exists()) throw new Error("Team ID not found.");
+      const inviteCode = joinTeamId.trim().toUpperCase();
+
+      // Query teams collection for matching invite code
+      const teamsRef = collection(db, "teams");
+      const q = query(teamsRef, where("inviteCode", "==", inviteCode));
+      const querySnapshot = await getDocs(q);
+
+      if (querySnapshot.empty) {
+        throw new Error("Invalid invite code. Please check and try again.");
+      }
+
+      // Get the first matching team
+      const teamDoc = querySnapshot.docs[0];
+      const teamData = teamDoc.data();
+
+      // Check if user is already a member
+      if (teamData.members && teamData.members.includes(user.uid)) {
+        throw new Error("You are already a member of this team.");
+      }
+
+      // Add user to team
+      const teamDocRef = doc(db, "teams", teamDoc.id);
       await updateDoc(teamDocRef, { members: arrayUnion(user.uid) });
+
+      // Update user document
       const userDocRef = doc(db, "users", user.uid);
-      // Use setDoc with merge to create document if it doesn't exist
       await setDoc(userDocRef, { teamId: teamDoc.id }, { merge: true });
 
       // Call the onComplete callback to continue to next step
@@ -92,7 +129,7 @@ export function TeamSetupStep({ user, onComplete }: TeamSetupStepProps) {
           Join or Create a Team
         </h1>
         <p className="text-muted-foreground mt-2">
-          Create a new team to get an ID, or join with an existing ID.
+          Create a new team to get an invite code, or join with an existing code.
         </p>
       </div>
 
@@ -145,17 +182,18 @@ export function TeamSetupStep({ user, onComplete }: TeamSetupStepProps) {
         </div>
         <div className="space-y-2">
           <label htmlFor="team-id" className="text-sm font-medium text-foreground block">
-            Team ID
+            Invite Code
           </label>
           <input
             id="team-id"
             type="text"
             className="input-field"
-            placeholder="Enter Team ID from your admin"
+            placeholder="Enter 8-character invite code"
             value={joinTeamId}
             onChange={(e) => setJoinTeamId(e.target.value)}
             required
             disabled={isSubmitting}
+            maxLength={8}
           />
         </div>
         <button type="submit" className="w-full btn-primary inline-flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed" disabled={isSubmitting || !joinTeamId.trim()}>
